@@ -1,0 +1,6 @@
+{
+  "name": "Más Seguro",
+  "description": "Navegación peatonal segura para Montevideo con cálculo de Safety Score, comparación de rutas, IA predictiva y reportes ciudadanos.",
+  "requestFramePermissions": ["geolocation", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

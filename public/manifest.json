@@ -1,0 +1,24 @@
+{
+  "name": "Más Seguro - Montevideo",
+  "short_name": "Más Seguro",
+  "description": "Navegación peatonal segura en Montevideo con cálculo de Safety Score, rutas iluminadas y botón SOS.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
