@@ -2,9 +2,9 @@
 
 Navegación peatonal segura para Montevideo: Safety Score, comparación de rutas, IA predictiva y reportes ciudadanos.
 
-## Deploy en Vercel
+## Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Fernandezalejo1/mas-seguro)
+https://mas-seguro.vercel.app/
 
 ### Variables de entorno (configurar en Vercel Dashboard > Settings > Environment Variables)
 
