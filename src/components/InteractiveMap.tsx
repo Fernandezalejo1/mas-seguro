@@ -527,7 +527,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
   }, [isCompanionActive, userSimulatedLocation]);
 
   return (
-    <div className="relative w-full h-full min-h-[450px] md:min-h-[580px] rounded-3xl overflow-hidden border border-white/80 shadow-lg bg-slate-100">
+    <div className="relative w-full h-full min-h-[500px] lg:min-h-[680px] rounded-3xl overflow-hidden border border-white/80 shadow-lg bg-slate-100">
       
       {/* Map Container */}
       <div 
@@ -535,7 +535,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         className={`w-full h-full transition-all duration-700 ${
           isRain ? 'brightness-[0.92] contrast-[1.08] saturate-[1.1]' : isFog ? 'brightness-[1.02] contrast-[0.92]' : ''
         }`} 
-        style={{ height: '100%', minHeight: '450px' }} 
+        style={{ height: '100%', minHeight: '500px' }} 
       />
 
       {/* Atmospheric Weather Overlay Visuals */}

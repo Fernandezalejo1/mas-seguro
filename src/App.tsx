@@ -182,7 +182,7 @@ export default function App() {
         
         {/* Navigation & Companion View */}
         {(activeTab === 'navigation' || activeTab === 'companion') && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
             {/* Left Control Column (Search Panel, AI Card, or Companion) */}
             <div className="lg:col-span-5 flex flex-col gap-4">
@@ -216,7 +216,7 @@ export default function App() {
             </div>
 
             {/* Right Map Column */}
-            <div className="lg:col-span-7 h-[500px] sm:h-[650px] lg:h-[860px] sticky top-20">
+            <div className="lg:col-span-7 min-h-[500px] lg:min-h-[680px]">
               <InteractiveMap
                 origin={origin}
                 destination={destination}
