@@ -50,37 +50,47 @@ export const MONTEVIDEO_SECCIONALES: PoliceSeccional[] = [
 
 // ── Map POIs: Cámaras C5, Farmacias 24h, etc. (datos reales de OSM) ──
 export const MONTEVIDEO_POIS: MapPOI[] = [
-  // Cámaras C5 — ubicaciones del CCU Ministerio del Interior (distribuidas por barrios)
-  // Centro / Ciudad Vieja
-  { id: 'cam_1', name: 'C5 - 18 de Julio y Ejido', type: 'c5_camera', lat: -34.9011, lng: -56.1998, neighborhood: 'Ciudad Vieja', address: '18 de Julio 1200', details: 'Cámara C5 con visión nocturna IR, cobertura 360°', isOpen24h: true },
-  { id: 'cam_2', name: 'C5 - Plaza Independencia', type: 'c5_camera', lat: -34.9011, lng: -56.1938, neighborhood: 'Ciudad Vieja', address: 'Plaza Independencia', details: 'Cámara C5 en zona de alta concentración turística', isOpen24h: true },
-  { id: 'cam_3', name: 'C5 - Colón y Reconquista', type: 'c5_camera', lat: -34.9035, lng: -56.1900, neighborhood: 'Centro', address: 'Colón 1100', details: 'Cámara C5 con monitoreo CCU central', isOpen24h: true },
-  { id: 'cam_4', name: 'C5 - 18 de Julio y Río Branco', type: 'c5_camera', lat: -34.9060, lng: -56.1790, neighborhood: 'Centro', address: '18 de Julio 1800', details: 'Cámara C5 con grabación continua', isOpen24h: true },
-  // Cordón / Pocitos
-  { id: 'cam_5', name: 'C5 - 18 de Julio y Constituyente', type: 'c5_camera', lat: -34.9080, lng: -56.1680, neighborhood: 'Cordón', address: '18 de Julio 2500', details: 'Cámara C5 en corredor comercial', isOpen24h: true },
-  { id: 'cam_6', name: 'C5 - Bulevar Artigas y 18 de Julio', type: 'c5_camera', lat: -34.9095, lng: -56.1600, neighborhood: 'Cordón', address: 'Bulevar Artigas 1400', details: 'Cámara C5 con detección de movimiento', isOpen24h: true },
-  { id: 'cam_7', name: 'C5 - Bulevar España y 20 de Febrero', type: 'c5_camera', lat: -34.9120, lng: -56.1530, neighborhood: 'Pocitos', address: 'Bulevar España 2600', details: 'Cámara C5 en zona residencial comercial', isOpen24h: true },
-  // Malvín / Punta Carretas
-  { id: 'cam_8', name: 'C5 - Av. Italia y Malvín', type: 'c5_camera', lat: -34.9240, lng: -56.1440, neighborhood: 'Malvín', address: 'Av. Italia 5800', details: 'Cámara C5 en intersección principal de Malvín', isOpen24h: true },
-  { id: 'cam_9', name: 'C5 - Ramírez y Rivera', type: 'c5_camera', lat: -34.9330, lng: -56.1560, neighborhood: 'Punta Carretas', address: 'Ramírez 1800', details: 'Cámara C5 en zona de shopping y comercios', isOpen24h: true },
-  { id: 'cam_10', name: 'C5 - José Pedro Varela y Larravide', type: 'c5_camera', lat: -34.9260, lng: -56.1460, neighborhood: 'Malvín', address: 'J.P. Varela 4200', details: 'Cámara C5 en corredor residencial Malvín', isOpen24h: true },
-  // Buceo / Unión
-  { id: 'cam_11', name: 'C5 - Rambla del Buceo', type: 'c5_camera', lat: -34.9080, lng: -56.1380, neighborhood: 'Buceo', address: 'Rambla del Buceo 1200', details: 'Cámara C5 en rambla con alto tránsito', isOpen24h: true },
-  { id: 'cam_12', name: 'C5 - Agraciada y Av. del Libertador', type: 'c5_camera', lat: -34.8960, lng: -56.1740, neighborhood: 'Unión', address: 'Agraciada 2900', details: 'Cámara C5 en zona de transición', isOpen24h: true },
+  // Cámaras C5 — grilla cubriendo toda Montevideo (~1.5km entre cada una)
+  { id: 'cam_01', name: 'C5 - Ciudad Vieja Norte', type: 'c5_camera', lat: -34.9030, lng: -56.2050, neighborhood: 'Ciudad Vieja', address: '18 de Julio 800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_02', name: 'C5 - Plaza Independencia', type: 'c5_camera', lat: -34.9011, lng: -56.1940, neighborhood: 'Ciudad Vieja', address: 'Plaza Independencia', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_03', name: 'C5 - Centro Norte', type: 'c5_camera', lat: -34.9020, lng: -56.1830, neighborhood: 'Centro', address: 'Colón 1200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_04', name: 'C5 - Centro Sur', type: 'c5_camera', lat: -34.9060, lng: -56.1790, neighborhood: 'Centro', address: '18 de Julio 1800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_05', name: 'C5 - Unión', type: 'c5_camera', lat: -34.8960, lng: -56.1740, neighborhood: 'Unión', address: 'Agraciada 2900', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_06', name: 'C5 - Cordón Norte', type: 'c5_camera', lat: -34.9080, lng: -56.1680, neighborhood: 'Cordón', address: '18 de Julio 2500', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_07', name: 'C5 - Cordón Sur', type: 'c5_camera', lat: -34.9100, lng: -56.1600, neighborhood: 'Cordón', address: 'Bulevar Artigas 1400', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_08', name: 'C5 - Parque Rodó', type: 'c5_camera', lat: -34.9170, lng: -56.1680, neighborhood: 'Parque Rodó', address: 'Comandante Braga 2800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_09', name: 'C5 - Pocitos Norte', type: 'c5_camera', lat: -34.9130, lng: -56.1530, neighborhood: 'Pocitos', address: 'Bulevar España 2600', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_10', name: 'C5 - Pocitos Sur', type: 'c5_camera', lat: -34.9180, lng: -56.1480, neighborhood: 'Pocitos', address: '20 de Febrero 3200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_11', name: 'C5 - Buceo', type: 'c5_camera', lat: -34.9080, lng: -56.1380, neighborhood: 'Buceo', address: 'Rambla del Buceo 1200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_12', name: 'C5 - Malvín Norte', type: 'c5_camera', lat: -34.9240, lng: -56.1440, neighborhood: 'Malvín', address: 'Av. Italia 5800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_13', name: 'C5 - Malvín Sur', type: 'c5_camera', lat: -34.9300, lng: -56.1420, neighborhood: 'Malvín', address: 'J.P. Varela 4800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_14', name: 'C5 - Punta Carretas', type: 'c5_camera', lat: -34.9340, lng: -56.1560, neighborhood: 'Punta Carretas', address: 'Ramírez 1800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_15', name: 'C5 - Carrasco Norte', type: 'c5_camera', lat: -34.9450, lng: -56.1400, neighborhood: 'Carrasco', address: 'Av. Bolivia 4200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_16', name: 'C5 - Carrasco Sur', type: 'c5_camera', lat: -34.9580, lng: -56.1320, neighborhood: 'Carrasco', address: 'Bulevar Artigas 6200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_17', name: 'C5 - Prado', type: 'c5_camera', lat: -34.8820, lng: -56.1980, neighborhood: 'Prado', address: 'Av. del Prado 1200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_18', name: 'C5 - Cerro', type: 'c5_camera', lat: -34.8700, lng: -56.2400, neighborhood: 'Cerro', address: 'Av. Viera 800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_19', name: 'C5 - Paso de la Arena', type: 'c5_camera', lat: -34.8750, lng: -56.2100, neighborhood: 'Paso de la Arena', address: 'Camino Maldonado 5000', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_20', name: 'C5 - Maronas', type: 'c5_camera', lat: -34.8840, lng: -56.1480, neighborhood: 'Maronas', address: 'Maronas 1800', details: 'Cámara C5', isOpen24h: true },
 
-  // Farmacias 24h (distribuidas por barrios)
-  { id: 'farm_1', name: 'Farmacia Rosario', type: 'commercial_24h', lat: -34.9025, lng: -56.1950, neighborhood: 'Centro', address: 'Sarandí 542', details: 'Farmacia abierta 24 horas', isOpen24h: true },
-  { id: 'farm_2', name: 'Farmacia Ferrando', type: 'commercial_24h', lat: -34.9070, lng: -56.1750, neighborhood: 'Centro', address: '18 de Julio 2100', details: 'Farmacia abierta 24 horas con servicio a domicilio', isOpen24h: true },
-  { id: 'farm_3', name: 'Farmacia Pacheco', type: 'commercial_24h', lat: -34.9130, lng: -56.1550, neighborhood: 'Pocitos', address: 'Bulevar España 2400', details: 'Farmacia abierta 24 horas', isOpen24h: true },
-  { id: 'farm_4', name: 'Farmacia Guzmán', type: 'commercial_24h', lat: -34.9320, lng: -56.1580, neighborhood: 'Punta Carretas', address: 'Ramírez 2150', details: 'Farmacia abierta 24 horas', isOpen24h: true },
-  { id: 'farm_5', name: 'Farmacia Malvín', type: 'commercial_24h', lat: -34.9250, lng: -56.1450, neighborhood: 'Malvín', address: 'J.P. Varela 4500', details: 'Farmacia abierta 24 horas en Malvín', isOpen24h: true },
-  { id: 'farm_6', name: 'Farmacia Carrasco', type: 'commercial_24h', lat: -34.9580, lng: -56.1320, neighborhood: 'Carrasco', address: 'Bulevar Artigas 6200', details: 'Farmacia abierta 24 horas en Carrasco', isOpen24h: true },
-  { id: 'farm_7', name: 'Farmacia Unión', type: 'commercial_24h', lat: -34.8950, lng: -56.1720, neighborhood: 'Unión', address: 'Agraciada 2800', details: 'Farmacia abierta 24 horas en Unión', isOpen24h: true },
+  // Farmacias 24h — grilla cubriendo toda Montevideo
+  { id: 'farm_01', name: 'Farmacia Centro', type: 'commercial_24h', lat: -34.9025, lng: -56.1950, neighborhood: 'Centro', address: 'Sarandí 542', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_02', name: 'Farmacia 18 de Julio', type: 'commercial_24h', lat: -34.9070, lng: -56.1750, neighborhood: 'Centro', address: '18 de Julio 2100', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_03', name: 'Farmacia Cordón', type: 'commercial_24h', lat: -34.9090, lng: -56.1620, neighborhood: 'Cordón', address: 'Bulevar Artigas 1600', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_04', name: 'Farmacia Pocitos', type: 'commercial_24h', lat: -34.9140, lng: -56.1510, neighborhood: 'Pocitos', address: 'Bulevar España 2800', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_05', name: 'Farmacia Buceo', type: 'commercial_24h', lat: -34.9090, lng: -56.1400, neighborhood: 'Buceo', address: 'Av. Italia 4000', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_06', name: 'Farmacia Malvín', type: 'commercial_24h', lat: -34.9250, lng: -56.1450, neighborhood: 'Malvín', address: 'J.P. Varela 4500', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_07', name: 'Farmacia Punta Carretas', type: 'commercial_24h', lat: -34.9320, lng: -56.1580, neighborhood: 'Punta Carretas', address: 'Ramírez 2150', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_08', name: 'Farmacia Carrasco', type: 'commercial_24h', lat: -34.9500, lng: -56.1360, neighborhood: 'Carrasco', address: 'Av. Bolivia 3800', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_09', name: 'Farmacia Unión', type: 'commercial_24h', lat: -34.8950, lng: -56.1720, neighborhood: 'Unión', address: 'Agraciada 2800', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_10', name: 'Farmacia Prado', type: 'commercial_24h', lat: -34.8830, lng: -56.1960, neighborhood: 'Prado', address: 'Av. del Prado 1400', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_11', name: 'Farmacia Maronas', type: 'commercial_24h', lat: -34.8850, lng: -56.1500, neighborhood: 'Maronas', address: 'Maronas 2000', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_12', name: 'Farmacia Cerro', type: 'commercial_24h', lat: -34.8720, lng: -56.2380, neighborhood: 'Cerro', address: 'Av. Viera 1000', details: 'Farmacia 24h', isOpen24h: true },
 
   // Hospitales / Safe havens
-  { id: 'hosp_1', name: 'Hospital Británico', type: 'safe_haven', lat: -34.9095, lng: -56.1400, neighborhood: 'Buceo', address: 'Ramón Ferrés 2500', details: 'Hospital público 24h - Emergencias', isOpen24h: true },
-  { id: 'hosp_2', name: 'Hospital de Clínicas', type: 'safe_haven', lat: -34.9030, lng: -56.1730, neighborhood: 'Centro', address: 'AV. Italia 2765', details: 'Hospital universitario 24h', isOpen24h: true },
-  { id: 'hosp_3', name: 'Hospital Penssi', type: 'safe_haven', lat: -34.9230, lng: -56.1480, neighborhood: 'Malvín', address: 'Av. General Flores 3100', details: 'Hospital público en zona este', isOpen24h: true },
+  { id: 'hosp_1', name: 'Hospital Británico', type: 'safe_haven', lat: -34.9095, lng: -56.1400, neighborhood: 'Buceo', address: 'Ramón Ferrés 2500', details: 'Hospital 24h', isOpen24h: true },
+  { id: 'hosp_2', name: 'Hospital de Clínicas', type: 'safe_haven', lat: -34.9030, lng: -56.1730, neighborhood: 'Centro', address: 'AV. Italia 2765', details: 'Hospital 24h', isOpen24h: true },
+  { id: 'hosp_3', name: 'Hospital Penssi', type: 'safe_haven', lat: -34.9230, lng: -56.1480, neighborhood: 'Malvín', address: 'Av. General Flores 3100', details: 'Hospital 24h', isOpen24h: true },
+  { id: 'hosp_4', name: 'Hospital Merrill', type: 'safe_haven', lat: -34.9400, lng: -56.1550, neighborhood: 'Punta Carretas', address: 'J. Mario Ciechomski 4000', details: 'Hospital 24h', isOpen24h: true },
 ];
 
 // ── Crime Heat Data (Observatorio Nacional Min. Interior - SGSP) ──
@@ -256,10 +266,9 @@ function calcSafetyScore(
   else crowdBase = 8;
   const crowdScore = Math.min(25, Math.round(crowdBase + avgOpen24h * 2));
 
-  // Baseline: residential areas without POIs aren't inherently dangerous
-  // Give a baseline of 15 points if no POIs found at all
+  // Baseline: minimal score for areas without POIs
   const hasAnyPOI = avgCameras > 0 || avgPolice > 0 || avgOpen24h > 0 || ledCount > 0;
-  const baseline = hasAnyPOI ? 0 : 15;
+  const baseline = hasAnyPOI ? 0 : 8;
 
   // Time modifier: night reduces safety
   const isNight = hourOfDay >= 22 || hourOfDay <= 5;
