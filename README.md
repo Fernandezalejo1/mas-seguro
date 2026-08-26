@@ -52,3 +52,4 @@ Ejecutar el script SQL en `supabase/migrations/001_create_reports.sql` desde el 
 ## Licencia
 
 Apache-2.0
+
