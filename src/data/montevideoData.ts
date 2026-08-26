@@ -63,7 +63,9 @@ export const MONTEVIDEO_POIS: MapPOI[] = [
   { id: 'cam_10', name: 'C5 - Pocitos Sur', type: 'c5_camera', lat: -34.9180, lng: -56.1480, neighborhood: 'Pocitos', address: '20 de Febrero 3200', details: 'Cámara C5', isOpen24h: true },
   { id: 'cam_11', name: 'C5 - Buceo', type: 'c5_camera', lat: -34.9080, lng: -56.1380, neighborhood: 'Buceo', address: 'Rambla del Buceo 1200', details: 'Cámara C5', isOpen24h: true },
   { id: 'cam_12', name: 'C5 - Malvín Norte', type: 'c5_camera', lat: -34.9240, lng: -56.1440, neighborhood: 'Malvín', address: 'Av. Italia 5800', details: 'Cámara C5', isOpen24h: true },
-  { id: 'cam_13', name: 'C5 - Malvín Sur', type: 'c5_camera', lat: -34.9300, lng: -56.1420, neighborhood: 'Malvín', address: 'J.P. Varela 4800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_13', name: 'C5 - Malvín Centro', type: 'c5_camera', lat: -34.9280, lng: -56.1430, neighborhood: 'Malvín', address: 'J.P. Varela 4400', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_13b', name: 'C5 - Malvín Sur', type: 'c5_camera', lat: -34.9350, lng: -56.1470, neighborhood: 'Malvín', address: 'Av. José Pedro Varela 5200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_13c', name: 'C5 - Malvín/Carrasco', type: 'c5_camera', lat: -34.9400, lng: -56.1430, neighborhood: 'Carrasco', address: 'Av. Bolivia 4000', details: 'Cámara C5', isOpen24h: true },
   { id: 'cam_14', name: 'C5 - Punta Carretas', type: 'c5_camera', lat: -34.9340, lng: -56.1560, neighborhood: 'Punta Carretas', address: 'Ramírez 1800', details: 'Cámara C5', isOpen24h: true },
   { id: 'cam_15', name: 'C5 - Carrasco Norte', type: 'c5_camera', lat: -34.9450, lng: -56.1400, neighborhood: 'Carrasco', address: 'Av. Bolivia 4200', details: 'Cámara C5', isOpen24h: true },
   { id: 'cam_16', name: 'C5 - Carrasco Sur', type: 'c5_camera', lat: -34.9580, lng: -56.1320, neighborhood: 'Carrasco', address: 'Bulevar Artigas 6200', details: 'Cámara C5', isOpen24h: true },
@@ -79,6 +81,7 @@ export const MONTEVIDEO_POIS: MapPOI[] = [
   { id: 'farm_04', name: 'Farmacia Pocitos', type: 'commercial_24h', lat: -34.9140, lng: -56.1510, neighborhood: 'Pocitos', address: 'Bulevar España 2800', details: 'Farmacia 24h', isOpen24h: true },
   { id: 'farm_05', name: 'Farmacia Buceo', type: 'commercial_24h', lat: -34.9090, lng: -56.1400, neighborhood: 'Buceo', address: 'Av. Italia 4000', details: 'Farmacia 24h', isOpen24h: true },
   { id: 'farm_06', name: 'Farmacia Malvín', type: 'commercial_24h', lat: -34.9250, lng: -56.1450, neighborhood: 'Malvín', address: 'J.P. Varela 4500', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_06b', name: 'Farmacia Malvín Sur', type: 'commercial_24h', lat: -34.9360, lng: -56.1480, neighborhood: 'Malvín', address: 'Av. Bolivia 3600', details: 'Farmacia 24h', isOpen24h: true },
   { id: 'farm_07', name: 'Farmacia Punta Carretas', type: 'commercial_24h', lat: -34.9320, lng: -56.1580, neighborhood: 'Punta Carretas', address: 'Ramírez 2150', details: 'Farmacia 24h', isOpen24h: true },
   { id: 'farm_08', name: 'Farmacia Carrasco', type: 'commercial_24h', lat: -34.9500, lng: -56.1360, neighborhood: 'Carrasco', address: 'Av. Bolivia 3800', details: 'Farmacia 24h', isOpen24h: true },
   { id: 'farm_09', name: 'Farmacia Unión', type: 'commercial_24h', lat: -34.8950, lng: -56.1720, neighborhood: 'Unión', address: 'Agraciada 2800', details: 'Farmacia 24h', isOpen24h: true },
@@ -218,10 +221,10 @@ function calcSafetyScore(
   const sampleCrimes: number[] = [];
 
   for (const [lat, lng] of samples) {
-    sampleCameras.push(countPOIsNear(lat, lng, 500, 'c5_camera'));
-    samplePolice.push(countSeccionalesNear(lat, lng, 1000));
-    sampleOpen24h.push(countPOIsNear(lat, lng, 500, 'commercial_24h'));
-    sampleCrimes.push(countCrimesNear(lat, lng, 500));
+    sampleCameras.push(countPOIsNear(lat, lng, 800, 'c5_camera'));
+    samplePolice.push(countSeccionalesNear(lat, lng, 1500));
+    sampleOpen24h.push(countPOIsNear(lat, lng, 800, 'commercial_24h'));
+    sampleCrimes.push(countCrimesNear(lat, lng, 800));
   }
 
   // Use max for positive factors (best segment matters)
