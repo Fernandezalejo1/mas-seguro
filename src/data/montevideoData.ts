@@ -175,9 +175,9 @@ function calcSafetyScore(
     return { safetyScore: 50, lightingLabel: 'Media', pedestrianLabel: 'Medio', crimeRiskLabel: 'Medio', c5Cameras: 0, policeStations: 0, open24hSpots: 0 };
   }
 
-  // Sample up to 8 points along the route
-  const step = Math.max(1, Math.floor(coords.length / 8));
-  const samples = coords.filter((_, i) => i % step === 0).slice(0, 8);
+  // Sample up to 10 points along the route
+  const step = Math.max(1, Math.floor(coords.length / 10));
+  const samples = coords.filter((_, i) => i % step === 0).slice(0, 10);
 
   let totalCameras = 0;
   let totalPolice = 0;
@@ -185,10 +185,10 @@ function calcSafetyScore(
   let totalCrimes = 0;
 
   for (const [lat, lng] of samples) {
-    totalCameras += countPOIsNear(lat, lng, 200, 'c5_camera');
-    totalPolice += countSeccionalesNear(lat, lng, 500);
-    totalOpen24h += countPOIsNear(lat, lng, 300, 'commercial_24h');
-    totalCrimes += countCrimesNear(lat, lng, 300);
+    totalCameras += countPOIsNear(lat, lng, 500, 'c5_camera');
+    totalPolice += countSeccionalesNear(lat, lng, 1000);
+    totalOpen24h += countPOIsNear(lat, lng, 500, 'commercial_24h');
+    totalCrimes += countCrimesNear(lat, lng, 500);
   }
 
   const avgCameras = totalCameras / samples.length;
@@ -196,19 +196,19 @@ function calcSafetyScore(
   const avgOpen24h = totalOpen24h / samples.length;
   const avgCrimes = totalCrimes / samples.length;
 
-  // Camera score (0-25)
-  const cameraScore = Math.min(25, Math.round(avgCameras * 5));
+  // Camera score (0-20) — bonus for nearby cameras
+  const cameraScore = Math.min(20, Math.round(avgCameras * 7));
 
-  // Police score (0-25)
-  const policeScore = Math.min(25, Math.round(avgPolice * 8));
+  // Police score (0-20) — wider search already done at 1000m
+  const policeScore = Math.min(20, Math.round(avgPolice * 10));
 
-  // Commercial score (0-15)
-  const commercialScore = Math.min(15, Math.round(avgOpen24h * 4));
+  // Commercial score (0-15) — wider search at 500m
+  const commercialScore = Math.min(15, Math.round(avgOpen24h * 5));
 
-  // Crime deduction (0-20)
-  const crimeDeduction = Math.min(20, Math.round(avgCrimes * 5));
+  // Crime deduction (0-15) — wider search at 500m
+  const crimeDeduction = Math.min(15, Math.round(avgCrimes * 5));
 
-  // Lighting: count IMM LED nodes near route
+  // Lighting: count IMM LED nodes near route (wider radius)
   const R = 6371000;
   let ledCount = 0;
   for (const [lat, lng] of samples) {
@@ -219,24 +219,29 @@ function calcSafetyScore(
         Math.sin(dLat / 2) ** 2 +
         Math.cos((lat * Math.PI) / 180) * Math.cos((node.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
       const dist = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return dist <= 200;
+      return dist <= 1000;
     }).length;
   }
-  const lightingScore = Math.min(25, Math.round(ledCount * 3));
+  const lightingScore = Math.min(25, Math.round(ledCount * 4));
 
   // Crowd flow: based on time of day + commercial density
-  let crowdBase = 10;
+  let crowdBase = 12;
   if (hourOfDay >= 8 && hourOfDay <= 20) crowdBase = 18;
   else if (hourOfDay >= 6 && hourOfDay <= 22) crowdBase = 14;
   else crowdBase = 8;
-  const crowdScore = Math.min(25, Math.round(crowdBase + avgOpen24h * 1.5));
+  const crowdScore = Math.min(25, Math.round(crowdBase + avgOpen24h * 2));
+
+  // Baseline: residential areas without POIs aren't inherently dangerous
+  // Give a baseline of 15 points if no POIs found at all
+  const hasAnyPOI = avgCameras > 0 || avgPolice > 0 || avgOpen24h > 0 || ledCount > 0;
+  const baseline = hasAnyPOI ? 0 : 15;
 
   // Time modifier: night reduces safety
   const isNight = hourOfDay >= 22 || hourOfDay <= 5;
   const timeModifier = isNight ? 0.85 : 1.0;
 
-  const raw = (lightingScore + crowdScore + policeScore + cameraScore + commercialScore - crimeDeduction) * timeModifier;
-  const safetyScore = Math.max(0, Math.min(100, Math.round(raw)));
+  const raw = (baseline + lightingScore + crowdScore + policeScore + cameraScore + commercialScore - crimeDeduction) * timeModifier;
+  const safetyScore = Math.max(10, Math.min(100, Math.round(raw)));
 
   return {
     safetyScore,
