@@ -82,8 +82,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const dLng = (destLng - originLng) * 111320 * Math.cos((originLat * Math.PI) / 180);
     const straightLineMeters = Math.sqrt(dLat * dLat + dLng * dLng);
 
-    const smallOffset = Math.min(300, Math.max(15, straightLineMeters * 0.15));
-    const largeOffset = Math.min(600, Math.max(30, straightLineMeters * 0.32));
+    const smallOffset = Math.min(800, Math.max(100, straightLineMeters * 0.35));
+    const largeOffset = Math.min(1500, Math.max(200, straightLineMeters * 0.65));
 
     const [direct, viaSmall, viaLarge] = await Promise.all([
       fetchOsrmRoute([origin, destination]),
@@ -93,13 +93,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!direct) throw new Error('OSRM no devolvió ruta');
 
-    const maxReasonableDetour = direct.distanceMeters + Math.max(400, direct.distanceMeters * 1.2);
+    const maxReasonableDetour = direct.distanceMeters * 1.8;
     const candidates = [direct, viaSmall, viaLarge].filter(
       (r): r is OsrmRouteAlt => r !== null && r.distanceMeters <= maxReasonableDetour
     );
     const routes: OsrmRouteAlt[] = [];
     for (const candidate of candidates) {
-      if (!routes.some(r => Math.abs(r.distanceMeters - candidate.distanceMeters) < 15)) {
+      // Only add if significantly different from existing routes (>100m apart)
+      if (!routes.some(r => Math.abs(r.distanceMeters - candidate.distanceMeters) < 100)) {
         routes.push(candidate);
       }
     }

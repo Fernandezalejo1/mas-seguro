@@ -197,26 +197,29 @@ function calcSafetyScore(
     return { safetyScore: 50, lightingLabel: 'Media', pedestrianLabel: 'Medio', crimeRiskLabel: 'Medio', c5Cameras: 0, policeStations: 0, open24hSpots: 0 };
   }
 
-  // Sample up to 10 points along the route
-  const step = Math.max(1, Math.floor(coords.length / 10));
-  const samples = coords.filter((_, i) => i % step === 0).slice(0, 10);
+  // Sample up to 12 points along the route
+  const step = Math.max(1, Math.floor(coords.length / 12));
+  const samples = coords.filter((_, i) => i % step === 0).slice(0, 12);
 
-  let totalCameras = 0;
-  let totalPolice = 0;
-  let totalOpen24h = 0;
-  let totalCrimes = 0;
+  // Track per-sample values for differentiation
+  const sampleCameras: number[] = [];
+  const samplePolice: number[] = [];
+  const sampleOpen24h: number[] = [];
+  const sampleCrimes: number[] = [];
 
   for (const [lat, lng] of samples) {
-    totalCameras += countPOIsNear(lat, lng, 500, 'c5_camera');
-    totalPolice += countSeccionalesNear(lat, lng, 1000);
-    totalOpen24h += countPOIsNear(lat, lng, 500, 'commercial_24h');
-    totalCrimes += countCrimesNear(lat, lng, 500);
+    sampleCameras.push(countPOIsNear(lat, lng, 500, 'c5_camera'));
+    samplePolice.push(countSeccionalesNear(lat, lng, 1000));
+    sampleOpen24h.push(countPOIsNear(lat, lng, 500, 'commercial_24h'));
+    sampleCrimes.push(countCrimesNear(lat, lng, 500));
   }
 
-  const avgCameras = totalCameras / samples.length;
-  const avgPolice = totalPolice / samples.length;
-  const avgOpen24h = totalOpen24h / samples.length;
-  const avgCrimes = totalCrimes / samples.length;
+  // Use max for positive factors (best segment matters)
+  // Use avg for crimes (worst segment matters)
+  const avgCameras = Math.max(...sampleCameras);
+  const avgPolice = Math.max(...samplePolice);
+  const avgOpen24h = Math.max(...sampleOpen24h);
+  const avgCrimes = sampleCrimes.reduce((a, b) => a + b, 0) / sampleCrimes.length;
 
   // Camera score (0-20) — bonus for nearby cameras
   const cameraScore = Math.min(20, Math.round(avgCameras * 7));

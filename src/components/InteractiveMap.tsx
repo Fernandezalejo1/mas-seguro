@@ -91,9 +91,9 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
     });
 
     // High quality Voyager base map
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      subdomains: 'abcd',
+      attribution: '&copy; OpenStreetMap',
     }).addTo(map);
 
     // Initialize layer groups
