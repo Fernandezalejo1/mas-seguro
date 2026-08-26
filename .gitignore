@@ -8,6 +8,13 @@ coverage/
 .env.*
 !.env.example
 /data/
+*.csv
+*.xlsx
+*.xml
+homicidios_dolosos_consumados*
+otros-delitos*
+metadatos_*
+tmp_cols.txt
 .vercel/
 
 .vercel
