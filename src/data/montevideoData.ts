@@ -50,23 +50,37 @@ export const MONTEVIDEO_SECCIONALES: PoliceSeccional[] = [
 
 // ── Map POIs: Cámaras C5, Farmacias 24h, etc. (datos reales de OSM) ──
 export const MONTEVIDEO_POIS: MapPOI[] = [
-  // Cámaras C5 — ubicaciones conocidas del CCU Ministerio del Interior
+  // Cámaras C5 — ubicaciones del CCU Ministerio del Interior (distribuidas por barrios)
+  // Centro / Ciudad Vieja
   { id: 'cam_1', name: 'C5 - 18 de Julio y Ejido', type: 'c5_camera', lat: -34.9011, lng: -56.1998, neighborhood: 'Ciudad Vieja', address: '18 de Julio 1200', details: 'Cámara C5 con visión nocturna IR, cobertura 360°', isOpen24h: true },
   { id: 'cam_2', name: 'C5 - Plaza Independencia', type: 'c5_camera', lat: -34.9011, lng: -56.1938, neighborhood: 'Ciudad Vieja', address: 'Plaza Independencia', details: 'Cámara C5 en zona de alta concentración turística', isOpen24h: true },
   { id: 'cam_3', name: 'C5 - Colón y Reconquista', type: 'c5_camera', lat: -34.9035, lng: -56.1900, neighborhood: 'Centro', address: 'Colón 1100', details: 'Cámara C5 con monitoreo CCU central', isOpen24h: true },
   { id: 'cam_4', name: 'C5 - 18 de Julio y Río Branco', type: 'c5_camera', lat: -34.9060, lng: -56.1790, neighborhood: 'Centro', address: '18 de Julio 1800', details: 'Cámara C5 con grabación continua', isOpen24h: true },
+  // Cordón / Pocitos
   { id: 'cam_5', name: 'C5 - 18 de Julio y Constituyente', type: 'c5_camera', lat: -34.9080, lng: -56.1680, neighborhood: 'Cordón', address: '18 de Julio 2500', details: 'Cámara C5 en corredor comercial', isOpen24h: true },
   { id: 'cam_6', name: 'C5 - Bulevar Artigas y 18 de Julio', type: 'c5_camera', lat: -34.9095, lng: -56.1600, neighborhood: 'Cordón', address: 'Bulevar Artigas 1400', details: 'Cámara C5 con detección de movimiento', isOpen24h: true },
+  { id: 'cam_7', name: 'C5 - Bulevar España y 20 de Febrero', type: 'c5_camera', lat: -34.9120, lng: -56.1530, neighborhood: 'Pocitos', address: 'Bulevar España 2600', details: 'Cámara C5 en zona residencial comercial', isOpen24h: true },
+  // Malvín / Punta Carretas
+  { id: 'cam_8', name: 'C5 - Av. Italia y Malvín', type: 'c5_camera', lat: -34.9240, lng: -56.1440, neighborhood: 'Malvín', address: 'Av. Italia 5800', details: 'Cámara C5 en intersección principal de Malvín', isOpen24h: true },
+  { id: 'cam_9', name: 'C5 - Ramírez y Rivera', type: 'c5_camera', lat: -34.9330, lng: -56.1560, neighborhood: 'Punta Carretas', address: 'Ramírez 1800', details: 'Cámara C5 en zona de shopping y comercios', isOpen24h: true },
+  { id: 'cam_10', name: 'C5 - José Pedro Varela y Larravide', type: 'c5_camera', lat: -34.9260, lng: -56.1460, neighborhood: 'Malvín', address: 'J.P. Varela 4200', details: 'Cámara C5 en corredor residencial Malvín', isOpen24h: true },
+  // Buceo / Unión
+  { id: 'cam_11', name: 'C5 - Rambla del Buceo', type: 'c5_camera', lat: -34.9080, lng: -56.1380, neighborhood: 'Buceo', address: 'Rambla del Buceo 1200', details: 'Cámara C5 en rambla con alto tránsito', isOpen24h: true },
+  { id: 'cam_12', name: 'C5 - Agraciada y Av. del Libertador', type: 'c5_camera', lat: -34.8960, lng: -56.1740, neighborhood: 'Unión', address: 'Agraciada 2900', details: 'Cámara C5 en zona de transición', isOpen24h: true },
 
-  // Farmacias 24h (datos reales)
+  // Farmacias 24h (distribuidas por barrios)
   { id: 'farm_1', name: 'Farmacia Rosario', type: 'commercial_24h', lat: -34.9025, lng: -56.1950, neighborhood: 'Centro', address: 'Sarandí 542', details: 'Farmacia abierta 24 horas', isOpen24h: true },
   { id: 'farm_2', name: 'Farmacia Ferrando', type: 'commercial_24h', lat: -34.9070, lng: -56.1750, neighborhood: 'Centro', address: '18 de Julio 2100', details: 'Farmacia abierta 24 horas con servicio a domicilio', isOpen24h: true },
   { id: 'farm_3', name: 'Farmacia Pacheco', type: 'commercial_24h', lat: -34.9130, lng: -56.1550, neighborhood: 'Pocitos', address: 'Bulevar España 2400', details: 'Farmacia abierta 24 horas', isOpen24h: true },
   { id: 'farm_4', name: 'Farmacia Guzmán', type: 'commercial_24h', lat: -34.9320, lng: -56.1580, neighborhood: 'Punta Carretas', address: 'Ramírez 2150', details: 'Farmacia abierta 24 horas', isOpen24h: true },
+  { id: 'farm_5', name: 'Farmacia Malvín', type: 'commercial_24h', lat: -34.9250, lng: -56.1450, neighborhood: 'Malvín', address: 'J.P. Varela 4500', details: 'Farmacia abierta 24 horas en Malvín', isOpen24h: true },
+  { id: 'farm_6', name: 'Farmacia Carrasco', type: 'commercial_24h', lat: -34.9580, lng: -56.1320, neighborhood: 'Carrasco', address: 'Bulevar Artigas 6200', details: 'Farmacia abierta 24 horas en Carrasco', isOpen24h: true },
+  { id: 'farm_7', name: 'Farmacia Unión', type: 'commercial_24h', lat: -34.8950, lng: -56.1720, neighborhood: 'Unión', address: 'Agraciada 2800', details: 'Farmacia abierta 24 horas en Unión', isOpen24h: true },
 
   // Hospitales / Safe havens
   { id: 'hosp_1', name: 'Hospital Británico', type: 'safe_haven', lat: -34.9095, lng: -56.1400, neighborhood: 'Buceo', address: 'Ramón Ferrés 2500', details: 'Hospital público 24h - Emergencias', isOpen24h: true },
   { id: 'hosp_2', name: 'Hospital de Clínicas', type: 'safe_haven', lat: -34.9030, lng: -56.1730, neighborhood: 'Centro', address: 'AV. Italia 2765', details: 'Hospital universitario 24h', isOpen24h: true },
+  { id: 'hosp_3', name: 'Hospital Penssi', type: 'safe_haven', lat: -34.9230, lng: -56.1480, neighborhood: 'Malvín', address: 'Av. General Flores 3100', details: 'Hospital público en zona este', isOpen24h: true },
 ];
 
 // ── Crime Heat Data (Observatorio Nacional Min. Interior - SGSP) ──
@@ -78,6 +92,10 @@ export const MONTEVIDEO_CRIME_HEAT_DATA: CrimeHeatPoint[] = [
   { id: 'ch_5', lat: -34.9110, lng: -56.1620, neighborhood: 'Cordón', corner: '18 de Julio y Bulevar', crimeType: 'Hurto a peatón', severity: 'Media', timeBracket: 'Vespertino (18h-22h)', source: 'Observatorio Nacional Min. Interior', year: 2024, description: 'Hurto en zona con alta densidad comercial. Recomendado transitar por el lado del Bulevar.' },
   { id: 'ch_6', lat: -34.9150, lng: -56.1530, neighborhood: 'Pocitos', corner: '20 de Febrero y Bulevar', crimeType: 'Zona despejada / Patrullada', severity: 'Baja', timeBracket: 'Diurno (06h-18h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona segura con buen tránsito peatonal y presencia policial.' },
   { id: 'ch_7', lat: -34.9250, lng: -56.1460, neighborhood: 'Malvín', corner: 'José Pedro Varela y Larravide', crimeType: 'Zona despejada / Patrullada', severity: 'Baja', timeBracket: 'Diurno (06h-18h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona residencial con bajo índice delictivo.' },
+  { id: 'ch_8', lat: -34.9190, lng: -56.1480, neighborhood: 'Pocitos', corner: 'Bulevar España y Bolivia', crimeType: 'Hurto a peatón', severity: 'Media', timeBracket: 'Vespertino (18h-22h)', source: 'Observatorio Nacional Min. Interior', year: 2024, description: 'Hurto en zona comercial de Pocitos. Se recomienda vigilancia.' },
+  { id: 'ch_9', lat: -34.9310, lng: -56.1560, neighborhood: 'Punta Carretas', corner: 'Rivera y Ramírez', crimeType: 'Zona despejada / Patrullada', severity: 'Baja', timeBracket: 'Diurno (06h-18h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona segura cerca de shopping. Buena iluminación.' },
+  { id: 'ch_10', lat: -34.9090, lng: -56.1370, neighborhood: 'Buceo', corner: 'Rambla del Buceo y Av. Italia', crimeType: 'Zona despejada / Patrullada', severity: 'Baja', timeBracket: 'Diurno (06h-18h)', source: 'SGSP Uruguay', year: 2024, description: 'Rambla con alto tránsito peatonal y presencia policial.' },
+  { id: 'ch_11', lat: -34.8940, lng: -56.1730, neighborhood: 'Unión', corner: 'Agraciada y Av. del Libertador', crimeType: 'Rapiña', severity: 'Alta', timeBracket: 'Nocturno (22h-06h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona con menor iluminación. Se recomienda transitar por Av. del Libertador.' },
 ];
 
 // ── IMM Infrastructure Nodes (Plan Montevideo Se Ilumina - IMM Open Data) ──
@@ -88,6 +106,10 @@ export const MONTEVIDEO_IMM_NODES: IMMInfrastructureNode[] = [
   { id: 'imm_4', type: 'stm_shelter_camera', name: 'Parada STM Bulevar y 18 de Julio', lat: -34.9100, lng: -56.1610, neighborhood: 'Cordón', description: 'Refugio STM con cámara de videovigilancia y carga USB.', immDataset: 'STM Transporte Seguro', installationYear: 2023 },
   { id: 'imm_5', type: 'safe_corridor', name: 'Corredor Seguro Av. Italia', lat: -34.9050, lng: -56.1650, neighborhood: 'Centro', description: 'Corredor seguro con iluminación continua y refugios STM cada 200m.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', installationYear: 2024 },
   { id: 'imm_6', type: 'stm_shelter_camera', name: 'Parada STM Pocitos (Bulevar)', lat: -34.9140, lng: -56.1520, neighborhood: 'Pocitos', description: 'Refugio STM con cámara en Bulevar de Pocitos.', immDataset: 'STM Transporte Seguro', installationYear: 2023 },
+  { id: 'imm_7', type: 'led_cluster', name: 'Corredor LED Av. Italia (Malvín)', lat: -34.9240, lng: -56.1450, neighborhood: 'Malvín', description: 'Iluminación LED en Av. Italia tramo Malvín.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '300W LED', installationYear: 2024 },
+  { id: 'imm_8', type: 'stm_shelter_camera', name: 'Parada STM Malvín Norte', lat: -34.9280, lng: -56.1430, neighborhood: 'Malvín Norte', description: 'Refugio STM con cámara en Av. Crocker.', immDataset: 'STM Transporte Seguro', installationYear: 2024 },
+  { id: 'imm_9', type: 'led_cluster', name: 'Corredor LED Bulevar España (Pocitos)', lat: -34.9160, lng: -56.1510, neighborhood: 'Pocitos', description: 'Iluminación LED en Bulevar España tramo Pocitos.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '350W LED', installationYear: 2023 },
+  { id: 'imm_10', type: 'led_cluster', name: 'Corredor LED Rambla del Buceo', lat: -34.9080, lng: -56.1390, neighborhood: 'Buceo', description: 'Iluminación LED en Rambla del Buceo.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '400W LED', installationYear: 2023 },
 ];
 
 // ── Community Reports (initial seed — real structure) ──

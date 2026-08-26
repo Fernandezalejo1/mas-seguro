@@ -216,7 +216,7 @@ export default function App() {
             </div>
 
             {/* Right Map Column */}
-            <div className="lg:col-span-7 h-[500px] sm:h-[580px] lg:h-[750px] sticky top-20">
+            <div className="lg:col-span-7 h-[500px] sm:h-[650px] lg:h-[860px] sticky top-20">
               <InteractiveMap
                 origin={origin}
                 destination={destination}
