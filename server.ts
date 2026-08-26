@@ -486,22 +486,32 @@ app.get('/api/route', async (req, res) => {
 // API: Safety Analysis (heuristic, no AI)
 app.post('/api/safety-analysis', async (req, res) => {
   try {
-    const { timeString, hourOfDay, weather } = req.body || {};
+    const { timeString, hourOfDay, weather, routeOption } = req.body || {};
     const isNight = (hourOfDay || 23) >= 22 || (hourOfDay || 23) <= 5;
     const isRain = weather === 'Lluvia' || weather === 'Tormenta';
+
+    const score = routeOption?.safetyScore || 0;
+    const camaras = routeOption?.safetyMetrics?.c5Cameras || 0;
+    const locales = routeOption?.safetyMetrics?.open24hSpots || 0;
+    const seccionales = routeOption?.safetyMetrics?.policeStations || 0;
 
     res.json({
       analysis: {
         verdict: isNight
           ? 'Nocturno: priorizá avenidas principales con iluminación LED y comercios abiertos.'
           : 'Ruta con buena visibilidad y tránsito peatonal regular.',
-        keyRecommendation: isNight
-          ? `A las ${timeString || 'esta hora'} transitá por corredores iluminados con presencia de comercios 24h y farmacias de turno.`
-          : `Con ${weather || 'buen clima'} conviene usar avenidas principales con mayor circulación de personas.`,
+        keyRecommendation: score > 70
+          ? `Ruta con safety score ${score}/100. ${camaras > 0 ? camaras + ' cámara(s) C5 en la zona. ' : ''}${locales > 0 ? locales + ' locales 24h disponibles. ' : ''}${seccionales > 0 ? seccionales + ' seccional(es) policial(es) cercana(s).' : ''}`
+          : isNight
+            ? `A las ${timeString || 'esta hora'} transitá por corredores iluminados con presencia de comercios 24h y farmacias de turno.`
+            : `Con ${weather || 'buen clima'} conviene usar avenidas principales con mayor circulación de personas.`,
         reasons: [
           isNight ? 'Calles principales con iluminación LED y mayor vigilancia natural.' : 'Buena visibilidad diurna en calles comerciales.',
           isRain ? 'En lluvia hay menos peatones — transitar por avenidas amplias.' : 'Tránsito peatonal regular que favorece la seguridad natural.',
           'Verificá la presencia de comercios abiertos y farmacias de turno como puntos seguros.',
+          ...(camaras > 0 ? [`${camaras} cámara(s) C5 del Ministerio del Interior en la zona`] : []),
+          ...(locales > 0 ? [`${locales} punto(s) 24h (farmacias/hospitales) como refugio`] : []),
+          ...(seccionales > 0 ? [`${seccionales} seccional(es) policial(es) con cobertura PADO`] : []),
         ],
         nighttimeAdvice: isNight
           ? 'Mantené tu teléfono guardado, evitá auriculares y permanecé en veredas iluminadas frente a comercios abiertos.'

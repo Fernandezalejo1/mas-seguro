@@ -34,10 +34,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return jsonError(res, 'Method not allowed', 405);
 
   try {
-    const { timeString, hourOfDay, weather } = req.body || {};
+    const { timeString, hourOfDay, weather, routeOption } = req.body || {};
+
+    const base = FALLBACK_ANALYSIS(parseNum(hourOfDay, 23), timeString, weather || 'Despejado');
+
+    // Enrich with real route data if available
+    const score = routeOption?.safetyScore || 0;
+    const camaras = routeOption?.safetyMetrics?.c5Cameras || 0;
+    const locales = routeOption?.safetyMetrics?.open24hSpots || 0;
+    const seccionales = routeOption?.safetyMetrics?.policeStations || 0;
 
     return jsonOk(res, {
-      analysis: FALLBACK_ANALYSIS(parseNum(hourOfDay, 23), timeString, weather || 'Despejado')
+      analysis: {
+        ...base,
+        keyRecommendation: score > 70
+          ? `Ruta con safety score ${score}/100. ${camaras > 0 ? camaras + ' cámara(s) C5 en la zona. ' : ''}${locales > 0 ? locales + ' locales 24h disponibles. ' : ''}${seccionales > 0 ? seccionales + ' seccional(es) policial(es) cercana(s).' : ''}`
+          : base.keyRecommendation,
+        reasons: [
+          ...base.reasons,
+          ...(camaras > 0 ? [`${camaras} cámara(s) C5 del Ministerio del Interior en la zona`] : []),
+          ...(locales > 0 ? [`${locales} punto(s) 24h (farmacias/hospitales) como refugio`] : []),
+          ...(seccionales > 0 ? [`${seccionales} seccional(es) policial(es) con cobertura PADO`] : []),
+        ],
+      }
     });
   } catch (error: any) {
     console.error('Safety analysis error:', error);

@@ -34,8 +34,7 @@ interface RouteSearchPanelProps {
   setSelectedRouteId: (id: RouteType) => void;
   hourOfDay: number;
   onStartCompanion: (route: RouteOption) => void;
-  onAnalyzeWithAI: () => void;
-  isAILoading: boolean;
+
   isRoutingLoading?: boolean;
   hasRealRoutes?: boolean;
 }
@@ -566,18 +565,7 @@ export const RouteSearchPanel: React.FC<RouteSearchPanelProps> = ({
           <span>INICIAR MODO ACOMPAÑAME EN VIVO</span>
         </button>
 
-        <button
-          onClick={onAnalyzeWithAI}
-          disabled={isAILoading}
-          className="py-3 px-4 rounded-2xl bg-white hover:bg-slate-50 text-blue-700 border border-blue-200 font-extrabold text-xs flex items-center justify-center gap-2 shadow-2xs transition-all cursor-pointer"
-        >
-          {isAILoading ? (
-            <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
-          ) : (
-            <Sparkles className="w-4 h-4 text-blue-600" />
-          )}
-          <span>Consultar IA</span>
-        </button>
+
       </div>
 
     </div>

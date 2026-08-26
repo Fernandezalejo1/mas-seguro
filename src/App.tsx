@@ -4,13 +4,12 @@
  */
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { LocationPoint, RouteOption, RouteType, CommunityReport, AISafetyAnalysis, Coordinates, RealRouteAlt } from './types';
+import { LocationPoint, RouteOption, RouteType, CommunityReport, Coordinates, RealRouteAlt } from './types';
 import { MONTEVIDEO_PRESETS, INITIAL_COMMUNITY_REPORTS, generateMontevideoRoutes } from './data/montevideoData';
 import { fetchRealRoutes } from './utils/routingService';
 import { Header } from './components/Header';
 import { RouteSearchPanel } from './components/RouteSearchPanel';
 import { InteractiveMap } from './components/InteractiveMap';
-import { AISafetyAnalysisCard } from './components/AISafetyAnalysisCard';
 import { CompanionSOSModal } from './components/CompanionSOSModal';
 import { CommunityReportModal } from './components/CommunityReportModal';
 import { UrbanMatrixDashboard } from './components/UrbanMatrixDashboard';
@@ -40,10 +39,6 @@ export default function App() {
     lat: origin.lat,
     lng: origin.lng
   });
-
-  // AI Safety Analysis state
-  const [aiAnalysis, setAiAnalysis] = useState<AISafetyAnalysis | null>(null);
-  const [isAILoading, setIsAILoading] = useState(false);
 
   // Real pedestrian routes over actual Montevideo streets (free OSRM foot routing).
   // Empty array => generateMontevideoRoutes falls back to its synthetic heuristic paths.
@@ -91,38 +86,6 @@ export default function App() {
   const selectedRoute = useMemo(() => {
     return routes.find(r => r.id === selectedRouteId) || routes[0];
   }, [routes, selectedRouteId]);
-
-  // AI Safety Analysis fetcher
-  const analyzeWithAI = useCallback(async () => {
-    setIsAILoading(true);
-    try {
-      const response = await fetch('/api/safety-analysis', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          originName: origin.name,
-          destinationName: destination.name,
-          timeString: `${String(hourOfDay).padStart(2, '0')}:00 hs`,
-          hourOfDay,
-          weather,
-          routeOption: selectedRoute
-        })
-      });
-      const data = await response.json();
-      if (data && data.analysis) {
-        setAiAnalysis(data.analysis);
-      }
-    } catch (err) {
-      console.error('Error fetching AI analysis:', err);
-    } finally {
-      setIsAILoading(false);
-    }
-  }, [origin, destination, hourOfDay, weather, selectedRoute]);
-
-  // Automatically trigger AI analysis when locations change
-  useEffect(() => {
-    analyzeWithAI();
-  }, [origin.id, destination.id, hourOfDay, weather]);
 
   // Start Companion Mode
   const handleStartCompanion = (route: RouteOption) => {
@@ -244,22 +207,8 @@ export default function App() {
                     setSelectedRouteId={setSelectedRouteId}
                     hourOfDay={hourOfDay}
                     onStartCompanion={handleStartCompanion}
-                    onAnalyzeWithAI={analyzeWithAI}
-                    isAILoading={isAILoading}
                     isRoutingLoading={isRoutingLoading}
                     hasRealRoutes={realRoutes.length > 0}
-                  />
-
-                  {/* AI Safety Analysis Card */}
-                  <AISafetyAnalysisCard
-                    analysis={aiAnalysis}
-                    selectedRoute={selectedRoute}
-                    origin={origin}
-                    destination={destination}
-                    hourOfDay={hourOfDay}
-                    weather={weather}
-                    isAILoading={isAILoading}
-                    onRefreshAI={analyzeWithAI}
                   />
                 </>
               )}
