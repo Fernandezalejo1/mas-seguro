@@ -2,7 +2,6 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
-import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
@@ -128,22 +127,6 @@ function saveReports(reports: typeof DEFAULT_REPORTS) {
 }
 
 let communityReports = loadReports();
-
-// Helper to initialize Gemini
-function getGeminiClient(): GoogleGenAI | null {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    return null;
-  }
-  return new GoogleGenAI({
-    apiKey: apiKey,
-    httpOptions: {
-      headers: {
-        'User-Agent': 'aistudio-build'
-      }
-    }
-  });
-}
 
 // API: Health check
 app.get('/api/health', (req, res) => {
@@ -500,134 +483,58 @@ app.get('/api/route', async (req, res) => {
   }
 });
 
-// API: AI Safety Analysis with Gemini 3.7 Flash
+// API: Safety Analysis (heuristic, no AI)
 app.post('/api/safety-analysis', async (req, res) => {
   try {
-    const { originName, destinationName, timeString, hourOfDay, weather, routeOption } = req.body;
+    const { timeString, hourOfDay, weather } = req.body || {};
+    const isNight = (hourOfDay || 23) >= 22 || (hourOfDay || 23) <= 5;
+    const isRain = weather === 'Lluvia' || weather === 'Tormenta';
 
-    const ai = getGeminiClient();
-
-    // Context for prompt
-    const prompt = `Actúa como el motor de Inteligencia Artificial de la startup de seguridad urbana "Más Seguro" en Montevideo, Uruguay.
-Lema: "Llegá mejor, no solamente más rápido."
-
-El usuario va a caminar desde "${originName}" hasta "${destinationName}" en Montevideo.
-Hora actual: ${timeString || '23:30'} (${hourOfDay !== undefined ? `Hora: ${hourOfDay}:00` : 'Nocturno'}).
-Clima actual: ${weather || 'Despejado'}.
-Ruta analizada: ${routeOption?.name || 'Ruta Más Segura'} (Safety Score: ${routeOption?.safetyScore || 92}/100, Distancia: ${routeOption?.distanceMeters || 1400}m, Tiempo estimado: ${routeOption?.durationMinutes || 18} min).
-Calles involucradas: ${routeOption?.summary || 'Avenida 18 de Julio, San José, Constituyente, Pocitos, etc.'}.
-
-Proporciona un veredicto de seguridad inteligente, ultra específico para las calles y barrios de Montevideo (ej. 18 de Julio, Cordón, Pocitos, Centro, Tres Cruces, Parque Rodó, Ciudad Vieja).
-Debes devolver una respuesta en formato JSON estrictamente válido con los siguientes campos:
-{
-  "verdict": "Veredicto conciso de 1 frase contundente",
-  "keyRecommendation": "Consejo táctico de caminata (ej: 'Caminá por la vereda norte de 18 de Julio...', 'Evitá cortar por la plaza...', 'Preferí desviarte una cuadra...')",
-  "reasons": [
-    "Razón 1 concreta sobre iluminación, cámaras C5 o movimiento",
-    "Razón 2 sobre comercios 24h o paradas STM",
-    "Razón 3 sobre el horario o flujo de peatones"
-  ],
-  "nighttimeAdvice": "Consejo específico para la noche montevideana",
-  "weatherFactor": "Impacto del clima en la seguridad",
-  "hotspotsToAvoid": ["Calle o punto oscuro a evitar", "Otro punto a evitar"]
-}`;
-
-    if (!ai) {
-      // Heuristic fallback if Gemini API Key not present in environment
-      return res.json({
-        analysis: {
-          verdict: hourOfDay >= 22 || hourOfDay <= 5
-            ? "Recomendación prioritaria: Utilizar el corredor principal con monitoreo CCU e iluminación LED continua."
-            : "Ruta segura con alta visibilidad y flujo regular de peatones.",
-          keyRecommendation: `A las ${timeString || 'esta hora'} conviene priorizar Av. 18 de Julio / Bulevar donde hay comercios 24h y cámaras C5 del Ministerio del Interior.`,
-          reasons: [
-            "Av. 18 de Julio cuenta con iluminación LED de alta potencia y cámaras de monitoreo 360° en cada intersección.",
-            "Hay paradas de ómnibus STM con buena frecuencia y farmacias de turno abiertas las 24 horas.",
-            "Las calles paralelas secundarias (ej. Soriano, Canelones) presentan menor tránsito y visibilidad nocturna reducida."
-          ],
-          nighttimeAdvice: "Mantené tu teléfono guardado, evitá auriculares con cancelación de ruido y permanecé en las veredas iluminadas frente a comercios abiertos.",
-          weatherFactor: weather === 'Lluvia' ? "La lluvia reduce el tránsito peatonal en veredas, aumentando la importancia de transitar por avenidas comerciales." : "Condiciones climáticas favorables con visibilidad normal en calles principales.",
-          hotspotsToAvoid: ["Cruces poco iluminados de calles secundarias", "Plazas desiertas pasadas las 23:00"]
-        }
-      });
-    }
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.7-flash',
-      contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-        temperature: 0.3
-      }
-    });
-
-    const responseText = response.text || '';
-    let parsedAnalysis;
-    try {
-      parsedAnalysis = JSON.parse(responseText);
-    } catch {
-      parsedAnalysis = {
-        verdict: "Ruta evaluada favorablemente según el índice de seguridad urbana.",
-        keyRecommendation: "Caminá por las avenidas principales con cámaras C5 y comercios activos.",
-        reasons: ["Mayor densidad de iluminación LED", "Monitoreo CCU activo", "Presencia policial del PADO"],
-        nighttimeAdvice: "Evitá calles desiertas y utilizá el modo Acompañame.",
-        weatherFactor: "Condiciones estables.",
-        hotspotsToAvoid: ["Calles oscuras secundarias"]
-      };
-    }
-
-    res.json({ analysis: parsedAnalysis });
-  } catch (error: any) {
-    console.error('Error in safety analysis:', error);
     res.json({
       analysis: {
-        verdict: "Análisis de seguridad local aplicado con base en datos urbanos de Montevideo.",
-        keyRecommendation: "Mantenete sobre las arterias principales con cobertura de cámaras C5 y farmacias 24h.",
+        verdict: isNight
+          ? 'Nocturno: priorizá avenidas principales con iluminación LED y comercios abiertos.'
+          : 'Ruta con buena visibilidad y tránsito peatonal regular.',
+        keyRecommendation: isNight
+          ? `A las ${timeString || 'esta hora'} transitá por corredores iluminados con presencia de comercios 24h y farmacias de turno.`
+          : `Con ${weather || 'buen clima'} conviene usar avenidas principales con mayor circulación de personas.`,
         reasons: [
-          "Av. 18 de Julio y corredores centrales tienen el índice Safety Score más alto de la capital.",
-          "Monitoreo policial constante y paradas STM con iluminación activa.",
-          "Menor tasa de incidentes reportados en comparación con transversales oscuras."
+          isNight ? 'Calles principales con iluminación LED y mayor vigilancia natural.' : 'Buena visibilidad diurna en calles comerciales.',
+          isRain ? 'En lluvia hay menos peatones — transitar por avenidas amplias.' : 'Tránsito peatonal regular que favorece la seguridad natural.',
+          'Verificá la presencia de comercios abiertos y farmacias de turno como puntos seguros.',
         ],
-        nighttimeAdvice: "Priorizá siempre la ruta más iluminada aunque tome 3 a 5 minutos adicionales.",
-        weatherFactor: "Monitoreo de visibilidad en tiempo real activo.",
-        hotspotsToAvoid: ["Pasajes oscuros sin cámaras"]
+        nighttimeAdvice: isNight
+          ? 'Mantené tu teléfono guardado, evitá auriculares y permanecé en veredas iluminadas frente a comercios abiertos.'
+          : 'En horario diurno la visibilidad es adecuada, mantené precaución normal.',
+        weatherFactor: isRain
+          ? 'La lluvia reduce el tránsito peatonal. Priorizá avenidas comerciales y refugios STM.'
+          : 'Condiciones climáticas favorables con visibilidad normal.',
+        hotspotsToAvoid: [
+          isNight ? 'Calles secundarias sin iluminación' : 'Zonas con baja densidad comercial',
+          'Plazas desiertas y pasajes sin circulación de personas',
+        ],
       }
     });
+  } catch (error: any) {
+    console.error('Error in safety analysis:', error);
+    res.json({ analysis: { verdict: 'Error', keyRecommendation: '', reasons: [], nighttimeAdvice: '', weatherFactor: '', hotspotsToAvoid: [] } });
   }
 });
 
-// API: AI Safety Assistant Chat
+// API: Safety Assistant (heuristic, no AI)
 app.post('/api/safety-assistant', async (req, res) => {
   try {
-    const { message, currentNeighborhood, hourOfDay } = req.body;
-    const ai = getGeminiClient();
+    const { currentNeighborhood, hourOfDay } = req.body || {};
+    const isNight = (hourOfDay || 23) >= 22 || (hourOfDay || 23) <= 5;
 
-    const systemInstruction = `Sos el asistente inteligente de seguridad urbana de "Más Seguro" en Montevideo, Uruguay.
-Conocés en profundidad los barrios (Centro, Ciudad Vieja, Cordón, Pocitos, Punta Carretas, Parque Rodó, Tres Cruces, Aguada, Parque Batlle, etc.), las avenidas (18 de Julio, Bv. Artigas, Rambla, Rivera, 8 de Octubre, Libertador), la ubicación de seccionales policiales (1ª, 2ª, 5ª, 10ª, 9ª) y las cámaras C5 del Ministerio del Interior.
-Respondés con tono cercano, profesional, uruguayo natural y directo.
-Tu prioridad es la prevención y la seguridad del peatón.`;
-
-    if (!ai) {
-      return res.json({
-        reply: `En ${currentNeighborhood || 'Montevideo'}, a esta hora (${hourOfDay || 'noche'}), la recomendación principal es caminar por avenidas amplias e iluminadas como Av. 18 de Julio o Bulevar Artigas. Evitá cortar camino por calles oscuras o plazas solitarias. En caso de emergencia, tenés la Seccional más próxima y comercios 24h señalados en el mapa.`
-      });
-    }
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.7-flash',
-      contents: `Pregunta del usuario: "${message}". Contexto: Barrio actual: ${currentNeighborhood || 'Centro / Cordón'}, Hora: ${hourOfDay || 23}:00.`,
-      config: {
-        systemInstruction,
-        temperature: 0.4
-      }
+    res.json({
+      reply: isNight
+        ? `En ${currentNeighborhood || 'Montevideo'}, a las ${hourOfDay || 23}:00 transitá por avenidas principales iluminadas. Buscá farmacias y comercios 24h como puntos seguros.`
+        : `En ${currentNeighborhood || 'Montevideo'}, caminá por calles comerciales con tránsito de personas. Las avenidas principales tienen buena iluminación y circulación.`
     });
-
-    res.json({ reply: response.text || 'Recordá siempre caminar por calles iluminadas y transitadas.' });
   } catch (error: any) {
     console.error('Assistant error:', error);
-    res.json({
-      reply: 'Para caminar seguro en Montevideo a esta hora, priorizá las calles con iluminación LED alta, cámaras C5 y presencia de locales 24 horas.'
-    });
+    res.json({ reply: 'Camina siempre por calles iluminadas y transitadas.' });
   }
 });
 
