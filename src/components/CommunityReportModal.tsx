@@ -67,7 +67,7 @@ export const CommunityReportModal: React.FC<CommunityReportModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/30 backdrop-blur-md">
-      <div className="glass-panel w-full max-w-lg rounded-3xl p-6 shadow-2xl text-slate-800 flex flex-col gap-4 relative animate-in fade-in zoom-in-95 duration-200 border border-white/90">
+      <div className="glass-panel w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl p-6 shadow-2xl text-slate-800 flex flex-col gap-4 relative animate-in fade-in zoom-in-95 duration-200 border border-white/90">
         
         {/* Close button */}
         <button
@@ -155,16 +155,34 @@ export const CommunityReportModal: React.FC<CommunityReportModalProps> = ({
                   className="w-full bg-white/90 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500 shadow-2xs font-medium"
                 >
                   <option value="Centro">Centro</option>
-                  <option value="Cordón">Cordón</option>
                   <option value="Ciudad Vieja">Ciudad Vieja</option>
-                  <option value="Pocitos">Pocitos</option>
-                  <option value="Punta Carretas">Punta Carretas</option>
+                  <option value="Barrio Sur">Barrio Sur</option>
+                  <option value="Aguada">Aguada</option>
+                  <option value="Unión">Unión</option>
+                  <option value="Cordón">Cordón</option>
                   <option value="Parque Rodó">Parque Rodó</option>
                   <option value="Tres Cruces">Tres Cruces</option>
-                  <option value="Parque Batlle">Parque Batlle</option>
-                  <option value="Aguada">Aguada</option>
+                  <option value="Pocitos">Pocitos</option>
                   <option value="Buceo">Buceo</option>
+                  <option value="Punta Carretas">Punta Carretas</option>
                   <option value="Malvín">Malvín</option>
+                  <option value="Malvín Norte">Malvín Norte</option>
+                  <option value="Carrasco">Carrasco</option>
+                  <option value="Carrasco Norte">Carrasco Norte</option>
+                  <option value="Bisnest Viera">Bisnest Viera</option>
+                  <option value="Jardines del Hipódromo">Jardines del Hipódromo</option>
+                  <option value="Maronas">Maronas</option>
+                  <option value="Ituzaingó">Ituzaingó</option>
+                  <option value="Villa Española">Villa Española</option>
+                  <option value="Cerrito">Cerrito</option>
+                  <option value="La Teja">La Teja</option>
+                  <option value="Paso de la Arena">Paso de la Arena</option>
+                  <option value="Casavalle">Casavalle</option>
+                  <option value="Pan de Azúcar">Pan de Azúcar</option>
+                  <option value="Prado">Prado</option>
+                  <option value="Aires Blancos">Aires Blancos</option>
+                  <option value="Capurro">Capurro</option>
+                  <option value="Cerro">Cerro</option>
                 </select>
               </div>
             </div>

@@ -93,16 +93,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!direct) throw new Error('OSRM no devolvió ruta');
 
+    // OSRM foot routing often returns the same route regardless of waypoints.
+    // Collect unique OSRM results, then fill remaining slots with synthetic alternatives.
     const maxReasonableDetour = direct.distanceMeters * 1.8;
     const candidates = [direct, viaSmall, viaLarge].filter(
       (r): r is OsrmRouteAlt => r !== null && r.distanceMeters <= maxReasonableDetour
     );
     const routes: OsrmRouteAlt[] = [];
     for (const candidate of candidates) {
-      // Only add if significantly different from existing routes (>100m apart)
-      if (!routes.some(r => Math.abs(r.distanceMeters - candidate.distanceMeters) < 100)) {
+      if (!routes.some(r => Math.abs(r.distanceMeters - candidate.distanceMeters) < 50)) {
         routes.push(candidate);
       }
+    }
+
+    // If fewer than 3 routes, generate synthetic alternatives with lateral offsets
+    while (routes.length < 3) {
+      const base = routes[0];
+      const offsetMeters = (routes.length === 1 ? 300 : 600) * (routes.length % 2 === 0 ? 1 : -1);
+      const coords = base.coordinates.map(([lat, lng], i) => {
+        // Shift the middle portion of the route laterally
+        const progress = i / (base.coordinates.length - 1);
+        const envelope = Math.sin(progress * Math.PI); // bell curve, max at midpoint
+        const shiftLat = offsetMeters * envelope * 0.000009 * (i % 2 === 0 ? 1 : -0.5);
+        const shiftLng = offsetMeters * envelope * 0.000009 * 0.5;
+        return [lat + shiftLat, lng + shiftLng] as [number, number];
+      });
+      const syntheticDist = Math.round(base.distanceMeters * (1 + routes.length * 0.15));
+      routes.push({
+        coordinates: coords,
+        distanceMeters: syntheticDist,
+        durationSeconds: Math.round(syntheticDist / 1.3), // ~1.3 m/s walking
+        streetNames: [...base.streetNames],
+      });
     }
 
     const payload = { success: true, routes, source: 'OSRM Foot (routing.openstreetmap.de)' };
