@@ -1,0 +1,8 @@
+*.csv
+*.xlsx
+*.xml
+tmp_cols.txt
+take_screenshots.py
+homicidios*
+otros-*
+metadatos_*

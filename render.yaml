@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: mas-seguro-api
+    runtime: python
+    buildCommand: cd backend && pip install -r requirements-render.txt
+    startCommand: cd backend && python server.py
+    envVars:
+      - key: DATABASE_URL_SYNC
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "false"
+      - key: RATE_LIMIT
+        value: "60"
+    healthCheckPath: /health
+    autoDeploy: true

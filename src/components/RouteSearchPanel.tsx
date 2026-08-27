@@ -34,7 +34,6 @@ interface RouteSearchPanelProps {
   setSelectedRouteId: (id: RouteType) => void;
   hourOfDay: number;
   onStartCompanion: (route: RouteOption) => void;
-
   isRoutingLoading?: boolean;
   hasRealRoutes?: boolean;
 }
@@ -49,8 +48,6 @@ export const RouteSearchPanel: React.FC<RouteSearchPanelProps> = ({
   setSelectedRouteId,
   hourOfDay,
   onStartCompanion,
-  onAnalyzeWithAI,
-  isAILoading,
   isRoutingLoading = false,
   hasRealRoutes = false
 }) => {

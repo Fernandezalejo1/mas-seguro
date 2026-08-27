@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements-render.txt
+          pip install ruff bandit
+
+      - name: Lint with ruff
+        run: |
+          cd backend
+          ruff check . --select E,F,I,N,W,UP
+
+      - name: Security scan with bandit
+        run: |
+          cd backend
+          bandit -r . -f json --severity-level medium || true
+
+      - name: Check for secrets in code
+        run: |
+          ! grep -rn "password\|secret_key\|api_key\|token" --include="*.py" backend/ | grep -v "example\|placeholder\|CHANGE\|REPLACE\|getenv\|env\.\|settings\.\|#"

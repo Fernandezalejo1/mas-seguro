@@ -32,6 +32,19 @@ export const MONTEVIDEO_PRESETS: LocationPoint[] = [
   { id: 'buceo', name: 'Puerto del Buceo', neighborhood: 'Buceo', lat: -34.9080, lng: -56.1380, category: 'landmark' },
   { id: 'cerro', name: 'Cerro de Montevideo', neighborhood: 'Cerro', lat: -34.8830, lng: -56.2470, category: 'landmark' },
   { id: 'union', name: 'Barrio Unión', neighborhood: 'Unión', lat: -34.8950, lng: -56.1720, category: 'landmark' },
+  // Nuevas presets para zonas adicionales
+  { id: 'carrasco', name: 'Carrasco Centro', neighborhood: 'Carrasco', lat: -34.9460, lng: -56.1390, category: 'landmark' },
+  { id: 'malvin_norte', name: 'Malvín Norte', neighborhood: 'Malvín Norte', lat: -34.9280, lng: -56.1420, category: 'landmark' },
+  { id: 'villa_espanola', name: 'Villa Española', neighborhood: 'Villa Española', lat: -34.8870, lng: -56.1640, category: 'landmark' },
+  { id: 'ituzaingo', name: 'Ituzaingó', neighborhood: 'Ituzaingó', lat: -34.8910, lng: -56.1560, category: 'landmark' },
+  { id: 'cerrito', name: 'Cerrito', neighborhood: 'Cerrito', lat: -34.8590, lng: -56.1770, category: 'landmark' },
+  { id: 'capurro', name: 'Capurro', neighborhood: 'Capurro', lat: -34.8760, lng: -56.2050, category: 'landmark' },
+  { id: 'aires_blancos', name: 'Aires Blancos', neighborhood: 'Aires Blancos', lat: -34.8670, lng: -56.2000, category: 'landmark' },
+  { id: 'la_teja', name: 'La Teja', neighborhood: 'La Teja', lat: -34.8650, lng: -56.2350, category: 'landmark' },
+  { id: 'paso_de_la_arena', name: 'Paso de la Arena', neighborhood: 'Paso de la Arena', lat: -34.8750, lng: -56.2100, category: 'landmark' },
+  { id: 'casavalle', name: 'Casavalle', neighborhood: 'Casavalle', lat: -34.8830, lng: -56.2150, category: 'landmark' },
+  { id: 'bisnest', name: 'Bisnest Viera', neighborhood: 'Bisnest Viera', lat: -34.9430, lng: -56.1480, category: 'landmark' },
+  { id: 'jardines_hipodromo', name: 'Jardines del Hipódromo', neighborhood: 'Jardines del Hipódromo', lat: -34.9480, lng: -56.1520, category: 'landmark' },
 ];
 
 // ── Police Seccionales (datos de la Jefatura de Policía de Montevideo) ──
@@ -46,6 +59,11 @@ export const MONTEVIDEO_SECCIONALES: PoliceSeccional[] = [
   { id: 'sec_8', number: 8, name: '8ª Seccional - Prado', neighborhoods: ['Prado', 'Aires Blancos'], address: 'Luis Alberto de Herrera 4500', phone: '2916 4242', lat: -34.8620, lng: -56.2020, padoCoverage: 'Media', c5CamerasCount: 4, monthlyCrimesReported: 56 },
   { id: 'sec_14', number: 14, name: '14ª Seccional - Malvín', neighborhoods: ['Malvín', 'Malvín Norte'], address: 'José Martí 3090', phone: '2916 4242', lat: -34.9270, lng: -56.1420, padoCoverage: 'Alta', c5CamerasCount: 7, monthlyCrimesReported: 63 },
   { id: 'sec_15', number: 15, name: '15ª Seccional - Maronas', neighborhoods: ['Maronas', 'Ituzaingó'], address: 'Maronas 1850', phone: '2916 4242', lat: -34.8840, lng: -56.1480, padoCoverage: 'Media', c5CamerasCount: 3, monthlyCrimesReported: 41 },
+  { id: 'sec_9', number: 9, name: '9ª Seccional - Punta Carretas', neighborhoods: ['Punta Carretas', 'Malvín'], address: 'Guatemala 2390', phone: '2916 4242', lat: -34.9320, lng: -56.1570, padoCoverage: 'Alta', c5CamerasCount: 8, monthlyCrimesReported: 52 },
+  { id: 'sec_10', number: 10, name: '10ª Seccional - Carrasco', neighborhoods: ['Carrasco', 'Carrasco Norte', 'Bisnest Viera'], address: 'Av. Bolivia 4580', phone: '2916 4242', lat: -34.9460, lng: -56.1390, padoCoverage: 'Alta', c5CamerasCount: 5, monthlyCrimesReported: 38 },
+  { id: 'sec_11', number: 11, name: '11ª Seccional - Malvín Norte', neighborhoods: ['Malvín Norte', 'Jardines del Hipódromo'], address: 'Av. Crocker 2150', phone: '2916 4242', lat: -34.9310, lng: -56.1410, padoCoverage: 'Media', c5CamerasCount: 4, monthlyCrimesReported: 44 },
+  { id: 'sec_12', number: 12, name: '12ª Seccional - Ituzaingó', neighborhoods: ['Ituzaingó', 'Villa Española', 'Maronas'], address: 'Av. General Flores 4050', phone: '2916 4242', lat: -34.8900, lng: -56.1580, padoCoverage: 'Media', c5CamerasCount: 4, monthlyCrimesReported: 58 },
+  { id: 'sec_13', number: 13, name: '13ª Seccional - Prado', neighborhoods: ['Prado', 'Aires Blancos', 'Capurro'], address: 'Av. del Prado 3200', phone: '2916 4242', lat: -34.8720, lng: -56.2010, padoCoverage: 'Media', c5CamerasCount: 3, monthlyCrimesReported: 48 },
 ];
 
 // ── Map POIs: Cámaras C5, Farmacias 24h, etc. (datos reales de OSM) ──
@@ -94,6 +112,32 @@ export const MONTEVIDEO_POIS: MapPOI[] = [
   { id: 'hosp_2', name: 'Hospital de Clínicas', type: 'safe_haven', lat: -34.9030, lng: -56.1730, neighborhood: 'Centro', address: 'AV. Italia 2765', details: 'Hospital 24h', isOpen24h: true },
   { id: 'hosp_3', name: 'Hospital Penssi', type: 'safe_haven', lat: -34.9230, lng: -56.1480, neighborhood: 'Malvín', address: 'Av. General Flores 3100', details: 'Hospital 24h', isOpen24h: true },
   { id: 'hosp_4', name: 'Hospital Merrill', type: 'safe_haven', lat: -34.9400, lng: -56.1550, neighborhood: 'Punta Carretas', address: 'J. Mario Ciechomski 4000', details: 'Hospital 24h', isOpen24h: true },
+  { id: 'hosp_5', name: 'Hospital Saint Bois', type: 'safe_haven', lat: -34.8670, lng: -56.2130, neighborhood: 'Cerro', address: 'Av. Gabriela 3300', details: 'Hospital 24h', isOpen24h: true },
+  { id: 'hosp_6', name: 'Hospital Policial', type: 'safe_haven', lat: -34.9020, lng: -56.1860, neighborhood: 'Centro', address: 'Colón 1543', details: 'Hospital 24h', isOpen24h: true },
+  { id: 'hosp_7', name: 'CASMU - Unión', type: 'safe_haven', lat: -34.8955, lng: -56.1700, neighborhood: 'Unión', address: 'Agraciada 2800', details: 'Hospital 24h', isOpen24h: true },
+
+  // Cámaras C5 adicionales — cobertura en zonas norte, oeste, interior
+  { id: 'cam_21', name: 'C5 - Tres Cruces', type: 'c5_camera', lat: -34.8930, lng: -56.1680, neighborhood: 'Tres Cruces', address: 'Terminal Tres Cruces', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_22', name: 'C5 - Cordón Norte', type: 'c5_camera', lat: -34.9060, lng: -56.1650, neighborhood: 'Cordón', address: 'Av. Italia 3200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_23', name: 'C5 - Parque Rodó Norte', type: 'c5_camera', lat: -34.9150, lng: -56.1650, neighborhood: 'Parque Rodó', address: 'Av. del Libertador 1600', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_24', name: 'C5 - Barrio Sur', type: 'c5_camera', lat: -34.9000, lng: -56.1950, neighborhood: 'Barrio Sur', address: 'Ciudadela 1300', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_25', name: 'C5 - Aguada', type: 'c5_camera', lat: -34.8970, lng: -56.1860, neighborhood: 'Aguada', address: 'Guayabos 2200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_26', name: 'C5 - Villa Española', type: 'c5_camera', lat: -34.8870, lng: -56.1640, neighborhood: 'Villa Española', address: 'Camacuá 3800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_27', name: 'C5 - Ituzaingó', type: 'c5_camera', lat: -34.8910, lng: -56.1560, neighborhood: 'Ituzaingó', address: 'Av. General Flores 4200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_28', name: 'C5 - Capurro', type: 'c5_camera', lat: -34.8760, lng: -56.2050, neighborhood: 'Capurro', address: 'Av. del Prado 2200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_29', name: 'C5 - Aires Blancos', type: 'c5_camera', lat: -34.8670, lng: -56.2000, neighborhood: 'Aires Blancos', address: 'Luis Alberto de Herrera 5200', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_30', name: 'C5 - Cerrito', type: 'c5_camera', lat: -34.8590, lng: -56.1770, neighborhood: 'Cerrito', address: 'Av. del Prado 4800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_31', name: 'C5 - Malvín Norte', type: 'c5_camera', lat: -34.9270, lng: -56.1400, neighborhood: 'Malvín Norte', address: 'Av. Crocker 2000', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_32', name: 'C5 - Bisnest Viera', type: 'c5_camera', lat: -34.9430, lng: -56.1480, neighborhood: 'Bisnest Viera', address: 'Bisnest Viera 3600', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_33', name: 'C5 - Jardines del Hipódromo', type: 'c5_camera', lat: -34.9480, lng: -56.1520, neighborhood: 'Jardines del Hipódromo', address: 'Jorge Hudson 1200', details: 'Cámara C5', isOpen24h: true },
+
+  // Farmacias adicionales
+  { id: 'farm_13', name: 'Farmacia Tres Cruces', type: 'commercial_24h', lat: -34.8940, lng: -56.1670, neighborhood: 'Tres Cruces', address: 'Flores 1800', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_14', name: 'Farmacia Parque Rodó', type: 'commercial_24h', lat: -34.9160, lng: -56.1660, neighborhood: 'Parque Rodó', address: 'Comandante Braga 2900', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_15', name: 'Farmacia Villa Española', type: 'commercial_24h', lat: -34.8880, lng: -56.1630, neighborhood: 'Villa Española', address: 'Camacuá 3900', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_16', name: 'Farmacia Ituzaingó', type: 'commercial_24h', lat: -34.8920, lng: -56.1550, neighborhood: 'Ituzaingó', address: 'Av. General Flores 4300', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_17', name: 'Farmacia Cerrito', type: 'commercial_24h', lat: -34.8600, lng: -56.1780, neighborhood: 'Cerrito', address: 'Av. del Prado 4900', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_18', name: 'Farmacia Paso de la Arena', type: 'commercial_24h', lat: -34.8760, lng: -56.2100, neighborhood: 'Paso de la Arena', address: 'Camino Maldonado 5100', details: 'Farmacia 24h', isOpen24h: true },
 ];
 
 // ── Crime Heat Data (Observatorio Nacional Min. Interior - SGSP) ──
@@ -109,6 +153,18 @@ export const MONTEVIDEO_CRIME_HEAT_DATA: CrimeHeatPoint[] = [
   { id: 'ch_9', lat: -34.9310, lng: -56.1560, neighborhood: 'Punta Carretas', corner: 'Rivera y Ramírez', crimeType: 'Zona despejada / Patrullada', severity: 'Baja', timeBracket: 'Diurno (06h-18h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona segura cerca de shopping. Buena iluminación.' },
   { id: 'ch_10', lat: -34.9090, lng: -56.1370, neighborhood: 'Buceo', corner: 'Rambla del Buceo y Av. Italia', crimeType: 'Zona despejada / Patrullada', severity: 'Baja', timeBracket: 'Diurno (06h-18h)', source: 'SGSP Uruguay', year: 2024, description: 'Rambla con alto tránsito peatonal y presencia policial.' },
   { id: 'ch_11', lat: -34.8940, lng: -56.1730, neighborhood: 'Unión', corner: 'Agraciada y Av. del Libertador', crimeType: 'Rapiña', severity: 'Alta', timeBracket: 'Nocturno (22h-06h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona con menor iluminación. Se recomienda transitar por Av. del Libertador.' },
+  // Nuevos registros de criminalidad para zonas adicionales
+  { id: 'ch_12', lat: -34.8880, lng: -56.1640, neighborhood: 'Villa Española', corner: 'Camacuá y Av. General Flores', crimeType: 'Hurto a peatón', severity: 'Media', timeBracket: 'Vespertino (18h-22h)', source: 'Observatorio Nacional Min. Interior', year: 2024, description: 'Hurto en zona comercial de Villa Española. Recomendado transitar por Flores.' },
+  { id: 'ch_13', lat: -34.8920, lng: -56.1550, neighborhood: 'Ituzaingó', corner: 'Av. General Flores y Campos', crimeType: 'Hurto a peatón', severity: 'Media', timeBracket: 'Diurno (06h-18h)', source: 'SGSP Uruguay', year: 2024, description: 'Hurto en zona con tránsito peatonal regular. Patrulla frecuente.' },
+  { id: 'ch_14', lat: -34.8600, lng: -56.1780, neighborhood: 'Cerrito', corner: 'Av. del Prado y Cerrito', crimeType: 'Intento de hurto', severity: 'Baja', timeBracket: 'Diurno (06h-18h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona residencial con vigilancia vecinal. Bajo índice delictivo.' },
+  { id: 'ch_15', lat: -34.8760, lng: -56.2050, neighborhood: 'Capurro', corner: 'Av. del Prado y Capurro', crimeType: 'Hurto a peatón', severity: 'Media', timeBracket: 'Vespertino (18h-22h)', source: 'Observatorio Nacional Min. Interior', year: 2024, description: 'Hurto en zona de tránsito. Se recomienda atención en paradas de ómnibus.' },
+  { id: 'ch_16', lat: -34.8670, lng: -56.2000, neighborhood: 'Aires Blancos', corner: 'Luis Alberto de Herrera y Prado', crimeType: 'Zona despejada / Patrullada', severity: 'Baja', timeBracket: 'Diurno (06h-18h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona residencial tranquila. Patrulla de la 13ª Seccional.' },
+  { id: 'ch_17', lat: -34.8770, lng: -56.2110, neighborhood: 'Paso de la Arena', corner: 'Camino Maldonado y Flores', crimeType: 'Rapiña', severity: 'Alta', timeBracket: 'Nocturno (22h-06h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona con menor iluminación. Se recomienda transitar por Maldonado.' },
+  { id: 'ch_18', lat: -34.8690, lng: -56.2530, neighborhood: 'Cerro', corner: 'Camino Maldonado y Viera', crimeType: 'Rapiña', severity: 'Alta', timeBracket: 'Nocturno (22h-06h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona con iluminación deficiente. Evitar calles secundarias de noche.' },
+  { id: 'ch_19', lat: -34.9270, lng: -56.1410, neighborhood: 'Malvín Norte', corner: 'Av. Crocker y J.P. Varela', crimeType: 'Hurto a peatón', severity: 'Media', timeBracket: 'Vespertino (18h-22h)', source: 'Observatorio Nacional Min. Interior', year: 2024, description: 'Hurto en zona residencial. Buena iluminación LED en Crocker.' },
+  { id: 'ch_20', lat: -34.9480, lng: -56.1520, neighborhood: 'Jardines del Hipódromo', corner: 'Jorge Hudson y Av. del Hipódromo', crimeType: 'Zona despejada / Patrullada', severity: 'Baja', timeBracket: 'Diurno (06h-18h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona residencial con buen nivel de seguridad y iluminación.' },
+  { id: 'ch_21', lat: -34.8970, lng: -56.1860, neighborhood: 'Aguada', corner: 'Guayabos y Bisonte', crimeType: 'Hurto a peatón', severity: 'Media', timeBracket: 'Vespertino (18h-22h)', source: 'Observatorio Nacional Min. Interior', year: 2024, description: 'Hurto en zona de afluencia comercial. Buena iluminación.' },
+  { id: 'ch_22', lat: -34.9000, lng: -56.1950, neighborhood: 'Barrio Sur', corner: 'Ciudadela y Ejido', crimeType: 'Rapiña', severity: 'Alta', timeBracket: 'Nocturno (22h-06h)', source: 'SGSP Uruguay', year: 2024, description: 'Zona con presencia policial nocturna pero menor iluminación en pasajes.' },
 ];
 
 // ── IMM Infrastructure Nodes (Plan Montevideo Se Ilumina - IMM Open Data) ──
@@ -123,6 +179,15 @@ export const MONTEVIDEO_IMM_NODES: IMMInfrastructureNode[] = [
   { id: 'imm_8', type: 'stm_shelter_camera', name: 'Parada STM Malvín Norte', lat: -34.9280, lng: -56.1430, neighborhood: 'Malvín Norte', description: 'Refugio STM con cámara en Av. Crocker.', immDataset: 'STM Transporte Seguro', installationYear: 2024 },
   { id: 'imm_9', type: 'led_cluster', name: 'Corredor LED Bulevar España (Pocitos)', lat: -34.9160, lng: -56.1510, neighborhood: 'Pocitos', description: 'Iluminación LED en Bulevar España tramo Pocitos.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '350W LED', installationYear: 2023 },
   { id: 'imm_10', type: 'led_cluster', name: 'Corredor LED Rambla del Buceo', lat: -34.9080, lng: -56.1390, neighborhood: 'Buceo', description: 'Iluminación LED en Rambla del Buceo.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '400W LED', installationYear: 2023 },
+  // IMM Nodes adicionales para nuevas zonas
+  { id: 'imm_11', type: 'led_cluster', name: 'Corredor LED Av. General Flores', lat: -34.8920, lng: -56.1580, neighborhood: 'Ituzaingó', description: 'Iluminación LED en Av. General Flores tramo Ituzaingó.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '300W LED', installationYear: 2024 },
+  { id: 'imm_12', type: 'led_cluster', name: 'Corredor LED Av. del Prado', lat: -34.8740, lng: -56.2020, neighborhood: 'Prado', description: 'Iluminación LED en Av. del Prado tramo Prado-Capurro.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '350W LED', installationYear: 2023 },
+  { id: 'imm_13', type: 'led_cluster', name: 'Corredor LED Bulevar Artigas', lat: -34.8650, lng: -56.1950, neighborhood: 'Aires Blancos', description: 'Iluminación LED en Bulevar Artigas tramo Aires Blancos.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '300W LED', installationYear: 2024 },
+  { id: 'imm_14', type: 'led_cluster', name: 'Corredor LED Camino Maldonado', lat: -34.8760, lng: -56.2200, neighborhood: 'Paso de la Arena', description: 'Iluminación LED en Camino Maldonado tramo norte.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '250W LED', installationYear: 2024 },
+  { id: 'imm_15', type: 'stm_shelter_camera', name: 'Parada STM Tres Cruces', lat: -34.8930, lng: -56.1680, neighborhood: 'Tres Cruces', description: 'Refugio STM con cámara en Terminal Tres Cruces.', immDataset: 'STM Transporte Seguro', installationYear: 2022 },
+  { id: 'imm_16', type: 'stm_shelter_camera', name: 'Parada STM Barrio Sur', lat: -34.9005, lng: -56.1940, neighborhood: 'Barrio Sur', description: 'Refugio STM con cámara en Ciudadela.', immDataset: 'STM Transporte Seguro', installationYear: 2023 },
+  { id: 'imm_17', type: 'led_cluster', name: 'Corredor LED Villa Española', lat: -34.8880, lng: -56.1630, neighborhood: 'Villa Española', description: 'Iluminación LED en Camacuá tramo Villa Española.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '250W LED', installationYear: 2024 },
+  { id: 'imm_18', type: 'led_cluster', name: 'Corredor LED Av. Italia (Carrasco)', lat: -34.9440, lng: -56.1410, neighborhood: 'Carrasco', description: 'Iluminación LED en Av. Italia tramo Carrasco.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '350W LED', installationYear: 2023 },
 ];
 
 // ── Community Reports (initial seed — real structure) ──
@@ -134,21 +199,41 @@ export const INITIAL_COMMUNITY_REPORTS: CommunityReport[] = [
 
 // ── Neighborhood Safety Matrix (for UrbanMatrixDashboard) ──
 export const NEIGHBORHOOD_SAFETY_MATRIX = [
-  { name: 'Ciudad Vieja', score: 78, lighting: 82, police: 85, crime: 60, commerce: 90 },
-  { name: 'Centro', score: 81, lighting: 80, police: 88, crime: 65, commerce: 88 },
-  { name: 'Cordón', score: 76, lighting: 75, police: 78, crime: 68, commerce: 80 },
-  { name: 'Pocitos', score: 83, lighting: 85, police: 80, crime: 75, commerce: 82 },
-  { name: 'Buceo', score: 79, lighting: 78, police: 76, crime: 72, commerce: 75 },
-  { name: 'Punta Carretas', score: 85, lighting: 88, police: 82, crime: 78, commerce: 85 },
-  { name: 'Parque Rodó', score: 74, lighting: 70, police: 72, crime: 65, commerce: 68 },
-  { name: 'Unión', score: 55, lighting: 48, police: 52, crime: 38, commerce: 42 },
-  { name: 'Cerro', score: 48, lighting: 42, police: 50, crime: 35, commerce: 38 },
-  { name: 'Malvín', score: 80, lighting: 82, police: 78, crime: 74, commerce: 76 },
-  { name: 'Prado', score: 68, lighting: 65, police: 68, crime: 60, commerce: 58 },
-  { name: 'Maronas', score: 62, lighting: 58, police: 60, crime: 55, commerce: 50 },
-  { name: 'Barrio Sur', score: 52, lighting: 48, police: 55, crime: 40, commerce: 45 },
-  { name: 'Aguada', score: 72, lighting: 70, police: 74, crime: 62, commerce: 65 },
-  { name: 'Tres Cruces', score: 77, lighting: 78, police: 80, crime: 70, commerce: 78 },
+  // ── Centro Histórico y Comercial ──
+  { name: 'Ciudad Vieja', score: 78, lighting: 82, police: 85, crime: 60, commerce: 90, cameras: 6, policeRating: 'Alta', risk: 'Medio' },
+  { name: 'Centro', score: 81, lighting: 80, police: 88, crime: 65, commerce: 88, cameras: 12, policeRating: 'Alta', risk: 'Medio' },
+  { name: 'Barrio Sur', score: 52, lighting: 48, police: 55, crime: 40, commerce: 45, cameras: 2, policeRating: 'Baja', risk: 'Alto' },
+  { name: 'Aguada', score: 72, lighting: 70, police: 74, crime: 62, commerce: 65, cameras: 4, policeRating: 'Media', risk: 'Medio' },
+  { name: 'Unión', score: 55, lighting: 48, police: 52, crime: 38, commerce: 42, cameras: 2, policeRating: 'Baja', risk: 'Alto' },
+  // ── Zona Cordón / Parque Rodó / Tres Cruces ──
+  { name: 'Cordón', score: 76, lighting: 75, police: 78, crime: 68, commerce: 80, cameras: 4, policeRating: 'Media', risk: 'Medio' },
+  { name: 'Parque Rodó', score: 74, lighting: 70, police: 72, crime: 65, commerce: 68, cameras: 3, policeRating: 'Media', risk: 'Medio' },
+  { name: 'Tres Cruces', score: 77, lighting: 78, police: 80, crime: 70, commerce: 78, cameras: 7, policeRating: 'Alta', risk: 'Medio' },
+  // ── Zona Este (Pocitos → Carrasco) ──
+  { name: 'Pocitos', score: 83, lighting: 85, police: 80, crime: 75, commerce: 82, cameras: 8, policeRating: 'Media', risk: 'Bajo' },
+  { name: 'Buceo', score: 79, lighting: 78, police: 76, crime: 72, commerce: 75, cameras: 5, policeRating: 'Media', risk: 'Medio' },
+  { name: 'Punta Carretas', score: 85, lighting: 88, police: 82, crime: 78, commerce: 85, cameras: 9, policeRating: 'Alta', risk: 'Bajo' },
+  { name: 'Malvín', score: 80, lighting: 82, police: 78, crime: 74, commerce: 76, cameras: 5, policeRating: 'Media', risk: 'Bajo' },
+  { name: 'Malvín Norte', score: 78, lighting: 79, police: 76, crime: 72, commerce: 73, cameras: 4, policeRating: 'Media', risk: 'Bajo' },
+  { name: 'Carrasco', score: 86, lighting: 90, police: 84, crime: 80, commerce: 82, cameras: 6, policeRating: 'Alta', risk: 'Bajo' },
+  { name: 'Carrasco Norte', score: 82, lighting: 84, police: 80, crime: 76, commerce: 78, cameras: 4, policeRating: 'Media', risk: 'Bajo' },
+  { name: 'Bisnest Viera', score: 80, lighting: 82, police: 78, crime: 74, commerce: 75, cameras: 3, policeRating: 'Media', risk: 'Bajo' },
+  { name: 'Jardines del Hipódromo', score: 79, lighting: 80, police: 77, crime: 73, commerce: 72, cameras: 3, policeRating: 'Media', risk: 'Bajo' },
+  // ── Zona Norte ──
+  { name: 'Maronas', score: 62, lighting: 58, police: 60, crime: 55, commerce: 50, cameras: 1, policeRating: 'Baja', risk: 'Alto' },
+  { name: 'Ituzaingó', score: 65, lighting: 60, police: 62, crime: 58, commerce: 52, cameras: 2, policeRating: 'Media', risk: 'Medio' },
+  { name: 'Villa Española', score: 63, lighting: 58, police: 60, crime: 56, commerce: 55, cameras: 2, policeRating: 'Media', risk: 'Medio' },
+  { name: 'Cerrito', score: 67, lighting: 64, police: 66, crime: 60, commerce: 58, cameras: 2, policeRating: 'Media', risk: 'Medio' },
+  { name: 'La Teja', score: 52, lighting: 46, police: 50, crime: 38, commerce: 40, cameras: 1, policeRating: 'Baja', risk: 'Alto' },
+  { name: 'Paso de la Arena', score: 56, lighting: 50, police: 54, crime: 42, commerce: 45, cameras: 2, policeRating: 'Media', risk: 'Alto' },
+  { name: 'Casavalle', score: 40, lighting: 35, police: 42, crime: 28, commerce: 30, cameras: 1, policeRating: 'Baja', risk: 'Alto' },
+  { name: 'Pan de Azúcar', score: 50, lighting: 44, police: 48, crime: 36, commerce: 38, cameras: 1, policeRating: 'Baja', risk: 'Alto' },
+  // ── Zona Oeste (Prado, Cerro, etc.) ──
+  { name: 'Prado', score: 68, lighting: 65, police: 68, crime: 60, commerce: 58, cameras: 2, policeRating: 'Media', risk: 'Medio' },
+  { name: 'Aires Blancos', score: 66, lighting: 62, police: 64, crime: 58, commerce: 55, cameras: 2, policeRating: 'Media', risk: 'Medio' },
+  { name: 'Capurro', score: 62, lighting: 58, police: 60, crime: 54, commerce: 52, cameras: 2, policeRating: 'Media', risk: 'Medio' },
+  { name: 'Cerro', score: 48, lighting: 42, police: 50, crime: 35, commerce: 38, cameras: 1, policeRating: 'Baja', risk: 'Alto' },
+  { name: 'Barrio Capurro-Bella Vista', score: 64, lighting: 60, police: 62, crime: 56, commerce: 54, cameras: 2, policeRating: 'Media', risk: 'Medio' },
 ];
 
 // ── Route generation ──

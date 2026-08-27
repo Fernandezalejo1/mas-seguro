@@ -4,7 +4,7 @@ Navegación peatonal segura para Montevideo: Safety Score, comparación de rutas
 
 ## Vercel
 
-[https://mas-seguro.vercel.app/](https://masseguro-five.vercel.app/)
+[https://mas-seguro.vercel.app/](https://mas-seguro.vercel.app/)
 
 ### Variables de entorno (configurar en Vercel Dashboard > Settings > Environment Variables)
 
