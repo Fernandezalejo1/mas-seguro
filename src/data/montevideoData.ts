@@ -5,7 +5,6 @@
  */
 import type {
   LocationPoint,
-  CommunityReport,
   RouteOption,
   RouteType,
   RealRouteAlt,
@@ -201,13 +200,6 @@ export const MONTEVIDEO_IMM_NODES: IMMInfrastructureNode[] = [
   { id: 'imm_16', type: 'stm_shelter_camera', name: 'Parada STM Barrio Sur', lat: -34.9005, lng: -56.1940, neighborhood: 'Barrio Sur', description: 'Refugio STM con cámara en Ciudadela.', immDataset: 'STM Transporte Seguro', installationYear: 2023 },
   { id: 'imm_17', type: 'led_cluster', name: 'Corredor LED Villa Española', lat: -34.8880, lng: -56.1630, neighborhood: 'Villa Española', description: 'Iluminación LED en Camacuá tramo Villa Española.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '250W LED', installationYear: 2024 },
   { id: 'imm_18', type: 'led_cluster', name: 'Corredor LED Av. Italia (Carrasco)', lat: -34.9440, lng: -56.1410, neighborhood: 'Carrasco', description: 'Iluminación LED en Av. Italia tramo Carrasco.', immDataset: 'Plan Montevideo Se Ilumina (IMM)', lumensOrPower: '350W LED', installationYear: 2023 },
-];
-
-// ── Community Reports (initial seed — real structure) ──
-export const INITIAL_COMMUNITY_REPORTS: CommunityReport[] = [
-  { id: 'rep_seed_1', category: 'crowded_safe', categoryLabel: 'Zona segura / concurrida', lat: -34.9011, lng: -56.1940, streetName: '18 de Julio', neighborhood: 'Ciudad Vieja', description: 'Buena iluminación y mucha gente transitando a las 20hs.', timestamp: 'Hace 1 hora', upvotes: 12, iconType: 'safe' },
-  { id: 'rep_seed_2', category: 'dark_street', categoryLabel: 'Calle oscura / poca iluminación', lat: -34.8960, lng: -56.1730, streetName: 'Agraciada', neighborhood: 'Unión', description: 'Luminarias apagadas entre 2500 y 2700. Poca gente.', timestamp: 'Hace 3 horas', upvotes: 8, iconType: 'alert' },
-  { id: 'rep_seed_3', category: 'police_presence', categoryLabel: 'Presencia policial', lat: -34.9070, lng: -56.1750, streetName: '18 de Julio', neighborhood: 'Centro', description: 'Patrulla PADO estacionada frente a 18 de Julio 2100.', timestamp: 'Hace 45 min', upvotes: 15, iconType: 'safe' },
 ];
 
 // ── Neighborhood Safety Matrix (for UrbanMatrixDashboard) ──

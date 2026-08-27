@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, MapPin, Compass, AlertTriangle, Cpu, BarChart3, Sun, Moon, CloudRain, Clock, CloudFog, Zap, ChevronDown } from 'lucide-react';
+import { Shield, Compass, Cpu, BarChart3, Sun, Moon, CloudRain, Clock, CloudFog, Zap, ChevronDown } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: 'navigation' | 'companion' | 'reports' | 'matrix' | 'architecture';
@@ -8,7 +8,6 @@ interface HeaderProps {
   setHourOfDay: (hour: number) => void;
   weather: string;
   setWeather: (weather: string) => void;
-  onOpenNewReport: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -17,8 +16,7 @@ export const Header: React.FC<HeaderProps> = ({
   hourOfDay,
   setHourOfDay,
   weather,
-  setWeather,
-  onOpenNewReport
+  setWeather
 }) => {
   const [isWeatherMenuOpen, setIsWeatherMenuOpen] = useState(false);
   const isNight = hourOfDay >= 20 || hourOfDay <= 6;
@@ -59,14 +57,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* Mobile report trigger */}
-          <button
-            onClick={onOpenNewReport}
-            className="md:hidden flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 rounded-xl bg-amber-100 text-amber-800 border border-amber-300 shadow-sm active:scale-95"
-          >
-            <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-            Reportar
-          </button>
+  
         </div>
 
         {/* Environmental Simulator Controls (Hour & Weather) */}
@@ -182,18 +173,6 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           <button
-            onClick={() => setActiveTab('reports')}
-            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
-              activeTab === 'reports'
-                ? 'bg-amber-600 text-white shadow-sm shadow-amber-600/30'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/70'
-            }`}
-          >
-            <AlertTriangle className="w-3.5 h-3.5" />
-            <span>Reportes</span>
-          </button>
-
-          <button
             onClick={() => setActiveTab('matrix')}
             className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
               activeTab === 'matrix'
@@ -217,14 +196,6 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Startup Tech</span>
           </button>
 
-          {/* Desktop Report Button */}
-          <button
-            onClick={onOpenNewReport}
-            className="hidden md:flex items-center space-x-1 px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 transition-colors shadow-2xs"
-          >
-            <MapPin className="w-3.5 h-3.5 text-amber-600" />
-            <span>Reportar</span>
-          </button>
         </div>
 
       </div>

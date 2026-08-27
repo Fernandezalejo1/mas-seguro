@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-import { LocationPoint, RouteOption, MapPOI, CommunityReport, RouteType, Coordinates } from '../types';
+import { LocationPoint, RouteOption, MapPOI, RouteType, Coordinates } from '../types';
 import { 
   MONTEVIDEO_CENTER, 
   MONTEVIDEO_POIS, 
@@ -33,7 +33,6 @@ interface InteractiveMapProps {
   routes: RouteOption[];
   selectedRouteId: RouteType;
   setSelectedRouteId: (id: RouteType) => void;
-  communityReports: CommunityReport[];
   weather?: string;
   userSimulatedLocation?: Coordinates;
   isCompanionActive?: boolean;
@@ -46,7 +45,6 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
   routes,
   selectedRouteId,
   setSelectedRouteId,
-  communityReports,
   weather = 'Despejado',
   userSimulatedLocation,
   isCompanionActive,
@@ -60,7 +58,6 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
     cameras: L.LayerGroup;
     police: L.LayerGroup;
     commercial: L.LayerGroup;
-    reports: L.LayerGroup;
     crimeHeat: L.LayerGroup;
     immLighting: L.LayerGroup;
     userLocation: L.LayerGroup;
@@ -70,7 +67,6 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
   const [showCameras, setShowCameras] = useState(true);
   const [showPolice, setShowPolice] = useState(true);
   const [showCommercial, setShowCommercial] = useState(true);
-  const [showReports, setShowReports] = useState(true);
   const [showCrimeHeat, setShowCrimeHeat] = useState(true);
   const [showImmLighting, setShowImmLighting] = useState(true);
 
@@ -102,7 +98,6 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
     const camerasGroup = L.layerGroup().addTo(map);
     const policeGroup = L.layerGroup().addTo(map);
     const commercialGroup = L.layerGroup().addTo(map);
-    const reportsGroup = L.layerGroup().addTo(map);
     const crimeHeatGroup = L.layerGroup().addTo(map);
     const immLightingGroup = L.layerGroup().addTo(map);
     const userLocationGroup = L.layerGroup().addTo(map);
@@ -113,7 +108,6 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
       cameras: camerasGroup,
       police: policeGroup,
       commercial: commercialGroup,
-      reports: reportsGroup,
       crimeHeat: crimeHeatGroup,
       immLighting: immLightingGroup,
       userLocation: userLocationGroup
@@ -331,52 +325,6 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
     }
 
   }, [showCameras, showPolice, showCommercial, showCrimeHeat, showImmLighting, weather, isRain, isFog, isStorm]);
-
-  // Update Community Reports Layer
-  useEffect(() => {
-    if (!layerGroupsRef.current) return;
-    const { reports } = layerGroupsRef.current;
-    reports.clearLayers();
-
-    if (!showReports) return;
-
-    communityReports.forEach(rep => {
-      const isNegative = rep.category === 'dark_street' || rep.category === 'unsafe_feeling' || rep.category === 'suspicious_activity';
-      const bgColor = isNegative ? '#e11d48' : '#0284c7';
-      const borderColor = isNegative ? '#fda4af' : '#7dd3fc';
-
-      // In adverse weather, warning reports get an extra bright pulsating aura
-      const alertHalo = (isNegative && (isRain || isFog))
-        ? `<div style="position: absolute; top: -6px; left: -6px; width: 38px; height: 38px; border-radius: 9999px; border: 2px solid #f43f5e; animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; opacity: 0.8;"></div>`
-        : '';
-
-      const reportIcon = L.divIcon({
-        className: 'custom-report-icon',
-        html: `<div style="position: relative;">
-          ${alertHalo}
-          <div style="background: ${bgColor}; color: white; border-radius: 9999px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border: 2px solid ${borderColor}; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          </div>
-        </div>`,
-        iconSize: [26, 26],
-        iconAnchor: [13, 13]
-      });
-
-      const marker = L.marker([rep.lat, rep.lng], { icon: reportIcon });
-      marker.bindPopup(`
-        <div style="padding: 6px; font-family: sans-serif;">
-          <span style="background: ${isNegative ? '#881337' : '#0c4a6e'}; color: ${isNegative ? '#fecdd3' : '#bae6fd'}; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px;">
-            ${rep.categoryLabel.toUpperCase()}
-          </span>
-          <h4 style="font-weight: bold; font-size: 13px; margin: 4px 0 2px 0; color: #0f172a;">${rep.streetName}</h4>
-          <p style="font-size: 11px; color: #64748b; margin: 0 0 4px 0;">${rep.neighborhood} • ${rep.timestamp}</p>
-          <p style="font-size: 11px; color: #334155; margin: 0 0 6px 0;">${rep.description}</p>
-          <div style="font-size: 10px; color: #64748b;">👍 ${rep.upvotes} vecinos confirmaron este reporte</div>
-        </div>
-      `);
-      reports.addLayer(marker);
-    });
-  }, [communityReports, showReports, weather, isRain, isFog]);
 
   // Update Routes and Waypoints with Weather-Aware Styling
   useEffect(() => {
@@ -658,18 +606,6 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
           {showCommercial ? <Eye className="w-3.5 h-3.5 text-emerald-600" /> : <EyeOff className="w-3.5 h-3.5 text-slate-400" />}
         </button>
 
-        {/* Toggle Reports */}
-        <button
-          onClick={() => setShowReports(!showReports)}
-          className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-xl transition-all cursor-pointer ${
-            showReports ? 'bg-amber-50 text-amber-800 font-bold border border-amber-200 shadow-2xs' : 'text-slate-600 hover:bg-white/80'
-          }`}
-        >
-          <span className="flex items-center gap-1.5">
-            <AlertTriangle className="w-3.5 h-3.5 text-amber-600" /> Reportes Vecinales
-          </span>
-          {showReports ? <Eye className="w-3.5 h-3.5 text-amber-600" /> : <EyeOff className="w-3.5 h-3.5 text-slate-400" />}
-        </button>
       </div>
 
       {/* Floating Route Legend (Bottom Left) */}
