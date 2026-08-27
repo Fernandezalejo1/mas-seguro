@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Security/quality pre-push hook — runs typecheck before code leaves the machine.
+set -euo pipefail
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m'
+if [ -f package.json ] && grep -q '"lint"' package.json; then
+  echo -e "${YELLOW}Corriendo typecheck antes del push...${NC}"
+  if ! npm run lint --silent; then
+    echo -e "${RED}[BLOQUEADO]${NC} El typecheck falló. Arreglalo antes de pushear (o --no-verify si es intencional)."
+    exit 1
+  fi
+fi
+exit 0
