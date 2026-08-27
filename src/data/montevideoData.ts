@@ -138,6 +138,19 @@ export const MONTEVIDEO_POIS: MapPOI[] = [
   { id: 'farm_16', name: 'Farmacia Ituzaingó', type: 'commercial_24h', lat: -34.8920, lng: -56.1550, neighborhood: 'Ituzaingó', address: 'Av. General Flores 4300', details: 'Farmacia 24h', isOpen24h: true },
   { id: 'farm_17', name: 'Farmacia Cerrito', type: 'commercial_24h', lat: -34.8600, lng: -56.1780, neighborhood: 'Cerrito', address: 'Av. del Prado 4900', details: 'Farmacia 24h', isOpen24h: true },
   { id: 'farm_18', name: 'Farmacia Paso de la Arena', type: 'commercial_24h', lat: -34.8760, lng: -56.2100, neighborhood: 'Paso de la Arena', address: 'Camino Maldonado 5100', details: 'Farmacia 24h', isOpen24h: true },
+
+  // POIs adicionales para zonas desprotegidas (Punta Gorda, Malvín Sur, Carrasco sur, etc.)
+  { id: 'cam_34', name: 'C5 - Punta Gorda', type: 'c5_camera', lat: -34.9320, lng: -56.1480, neighborhood: 'Punta Gorda', address: 'Av. General Rivera 5400', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_35', name: 'C5 - Malvín Sur', type: 'c5_camera', lat: -34.9400, lng: -56.1470, neighborhood: 'Malvín Sur', address: 'Av. José Pedro Varela 5800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_36', name: 'C5 - Carrasco Centro', type: 'c5_camera', lat: -34.9480, lng: -56.1380, neighborhood: 'Carrasco', address: 'Av. Bolivia 4400', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_37', name: 'C5 - Buceo Sur', type: 'c5_camera', lat: -34.9120, lng: -56.1380, neighborhood: 'Buceo', address: 'Rambla Sur 1800', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_38', name: 'C5 - Pocitos Centro', type: 'c5_camera', lat: -34.9160, lng: -56.1500, neighborhood: 'Pocitos', address: 'Bulevar España 3100', details: 'Cámara C5', isOpen24h: true },
+  { id: 'cam_39', name: 'C5 - Parque Rodó Sur', type: 'c5_camera', lat: -34.9220, lng: -56.1660, neighborhood: 'Parque Rodó', address: 'Av. del Libertador 2200', details: 'Cámara C5', isOpen24h: true },
+
+  { id: 'farm_19', name: 'Farmacia Punta Gorda', type: 'commercial_24h', lat: -34.9330, lng: -56.1490, neighborhood: 'Punta Gorda', address: 'Av. General Rivera 5500', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_20', name: 'Farmacia Carrasco Centro', type: 'commercial_24h', lat: -34.9470, lng: -56.1370, neighborhood: 'Carrasco', address: 'Av. Bolivia 4500', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_21', name: 'Farmacia Buceo Rambla', type: 'commercial_24h', lat: -34.9110, lng: -56.1390, neighborhood: 'Buceo', address: 'Rambla Sur 1600', details: 'Farmacia 24h', isOpen24h: true },
+  { id: 'farm_22', name: 'Farmacia Parque Rodó', type: 'commercial_24h', lat: -34.9210, lng: -56.1670, neighborhood: 'Parque Rodó', address: 'Av. del Libertador 2100', details: 'Farmacia 24h', isOpen24h: true },
 ];
 
 // ── Crime Heat Data (Observatorio Nacional Min. Interior - SGSP) ──
@@ -279,6 +292,40 @@ function countCrimesNear(lat: number, lng: number, radiusMeters: number): number
   }).length;
 }
 
+// Haversine distance in meters
+function haversineMeters(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371000;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+/**
+ * Lookup the nearest neighborhood in the safety matrix and return its base score.
+ * This gives a meaningful baseline even in areas without dense POIs.
+ */
+function getNeighborhoodBaseline(lat: number, lng: number): { score: number; name: string } | null {
+  let best: { score: number; name: string } | null = null;
+  let bestDist = Infinity;
+  for (const nb of NEIGHBORHOOD_SAFETY_MATRIX) {
+    // Find preset or seccional with matching name to get coords
+    const preset = MONTEVIDEO_PRESETS.find(p => p.neighborhood === nb.name);
+    const sec = MONTEVIDEO_SECCIONALES.find(s => s.neighborhoods.includes(nb.name));
+    const refLat = preset?.lat ?? sec?.lat;
+    const refLng = preset?.lng ?? sec?.lng;
+    if (refLat == null || refLng == null) continue;
+    const dist = haversineMeters(lat, lng, refLat, refLng);
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = { score: nb.score, name: nb.name };
+    }
+  }
+  return best;
+}
+
 function calcSafetyScore(
   coords: [number, number][],
   hourOfDay: number
@@ -295,81 +342,86 @@ function calcSafetyScore(
     return { safetyScore: 50, lightingLabel: 'Media', pedestrianLabel: 'Medio', crimeRiskLabel: 'Medio', c5Cameras: 0, policeStations: 0, open24hSpots: 0 };
   }
 
-  // Sample up to 12 points along the route
-  const step = Math.max(1, Math.floor(coords.length / 12));
-  const samples = coords.filter((_, i) => i % step === 0).slice(0, 12);
+  // Sample up to 15 points along the route for finer granularity
+  const step = Math.max(1, Math.floor(coords.length / 15));
+  const samples = coords.filter((_, i) => i % step === 0).slice(0, 15);
 
-  // Track per-sample values for differentiation
+  // Track per-sample values — use WIDER radii so we actually find POIs
   const sampleCameras: number[] = [];
   const samplePolice: number[] = [];
   const sampleOpen24h: number[] = [];
   const sampleCrimes: number[] = [];
+  const sampleLighting: number[] = [];
 
   for (const [lat, lng] of samples) {
-    sampleCameras.push(countPOIsNear(lat, lng, 800, 'c5_camera'));
-    samplePolice.push(countSeccionalesNear(lat, lng, 1500));
-    sampleOpen24h.push(countPOIsNear(lat, lng, 800, 'commercial_24h'));
-    sampleCrimes.push(countCrimesNear(lat, lng, 800));
+    sampleCameras.push(countPOIsNear(lat, lng, 1200, 'c5_camera'));
+    samplePolice.push(countSeccionalesNear(lat, lng, 2000));
+    sampleOpen24h.push(countPOIsNear(lat, lng, 1200, 'commercial_24h'));
+    sampleCrimes.push(countCrimesNear(lat, lng, 1200));
+    // Count LED nodes per sample point
+    const ledNear = MONTEVIDEO_IMM_NODES.filter(node =>
+      haversineMeters(lat, lng, node.lat, node.lng) <= 1500
+    ).length;
+    sampleLighting.push(ledNear);
   }
 
-  // Use max for positive factors (best segment matters)
-  // Use avg for crimes (worst segment matters)
-  const avgCameras = Math.max(...sampleCameras);
-  const avgPolice = Math.max(...samplePolice);
-  const avgOpen24h = Math.max(...sampleOpen24h);
-  const avgCrimes = sampleCrimes.reduce((a, b) => a + b, 0) / sampleCrimes.length;
+  // KEY FIX: Use weighted average (not max) so different routes get different scores.
+  // Blend 60% average + 40% max to reward consistently good routes while not ignoring peak safety.
+  const avg = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length;
+  const blend = (arr: number[]) => Math.round(avg(arr) * 0.6 + Math.max(...arr) * 0.4);
 
-  // Camera score (0-20) — bonus for nearby cameras
-  const cameraScore = Math.min(20, Math.round(avgCameras * 7));
+  const avgCameras = blend(sampleCameras);
+  const avgPolice = blend(samplePolice);
+  const avgOpen24h = blend(sampleOpen24h);
+  // Crime uses weighted average (worst segments drag score down)
+  const avgCrimes = Math.round(avg(sampleCrimes) * 0.7 + Math.max(...sampleCrimes) * 0.3);
+  const avgLed = blend(sampleLighting);
 
-  // Police score (0-20) — wider search already done at 1000m
-  const policeScore = Math.min(20, Math.round(avgPolice * 10));
+  // Camera score (0-20)
+  const cameraScore = Math.min(20, Math.round(avgCameras * 6));
 
-  // Commercial score (0-15) — wider search at 500m
+  // Police score (0-20)
+  const policeScore = Math.min(20, Math.round(avgPolice * 8));
+
+  // Commercial score (0-15)
   const commercialScore = Math.min(15, Math.round(avgOpen24h * 5));
 
-  // Crime deduction (0-15) — wider search at 500m
-  const crimeDeduction = Math.min(15, Math.round(avgCrimes * 5));
+  // Crime deduction (0-20)
+  const crimeDeduction = Math.min(20, Math.round(avgCrimes * 6));
 
-  // Lighting: count IMM LED nodes near route (wider radius)
-  const R = 6371000;
-  let ledCount = 0;
-  for (const [lat, lng] of samples) {
-    ledCount += MONTEVIDEO_IMM_NODES.filter(node => {
-      const dLat = ((node.lat - lat) * Math.PI) / 180;
-      const dLng = ((node.lng - lng) * Math.PI) / 180;
-      const a =
-        Math.sin(dLat / 2) ** 2 +
-        Math.cos((lat * Math.PI) / 180) * Math.cos((node.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
-      const dist = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return dist <= 1000;
-    }).length;
-  }
-  const lightingScore = Math.min(25, Math.round(ledCount * 4));
+  // Lighting score from IMM LED nodes (0-25)
+  const lightingScore = Math.min(25, Math.round(avgLed * 5));
 
-  // Crowd flow: based on time of day + commercial density
-  let crowdBase = 12;
+  // Crowd flow: time-of-day + commercial density
+  let crowdBase = 10;
   if (hourOfDay >= 8 && hourOfDay <= 20) crowdBase = 18;
-  else if (hourOfDay >= 6 && hourOfDay <= 22) crowdBase = 14;
-  else crowdBase = 8;
-  const crowdScore = Math.min(25, Math.round(crowdBase + avgOpen24h * 2));
+  else if (hourOfDay >= 6 && hourOfDay <= 22) crowdBase = 13;
+  else crowdBase = 7;
+  const crowdScore = Math.min(25, Math.round(crowdBase + avgOpen24h * 2.5));
 
-  // Baseline: minimal score for areas without POIs
-  const hasAnyPOI = avgCameras > 0 || avgPolice > 0 || avgOpen24h > 0 || ledCount > 0;
-  const baseline = hasAnyPOI ? 0 : 8;
+  // Neighborhood baseline: look up the nearest mapped neighborhood score
+  // This ensures routes in known safe/dangerous areas get appropriate base scores
+  const midIdx = Math.floor(samples.length / 2);
+  const midCoords = samples[midIdx];
+  const neighborhoodLookup = getNeighborhoodBaseline(midCoords[0], midCoords[1]);
+  const neighborhoodScore = neighborhoodLookup?.score ?? 60; // default to 60 if unknown
+
+  // Blend POI-based score with neighborhood baseline (50/50)
+  const poiScore = lightingScore + crowdScore + policeScore + cameraScore + commercialScore - crimeDeduction;
+  const blendedScore = Math.round(poiScore * 0.5 + neighborhoodScore * 0.5);
 
   // Time modifier: night reduces safety
   const isNight = hourOfDay >= 22 || hourOfDay <= 5;
-  const timeModifier = isNight ? 0.85 : 1.0;
+  const timeModifier = isNight ? 0.82 : 1.0;
 
-  const raw = (baseline + lightingScore + crowdScore + policeScore + cameraScore + commercialScore - crimeDeduction) * timeModifier;
+  const raw = blendedScore * timeModifier;
   const safetyScore = Math.max(10, Math.min(100, Math.round(raw)));
 
   return {
     safetyScore,
-    lightingLabel: lightingScore >= 18 ? 'Alta' : lightingScore >= 10 ? 'Media' : 'Baja',
+    lightingLabel: lightingScore >= 15 ? 'Alta' : lightingScore >= 8 ? 'Media' : 'Baja',
     pedestrianLabel: crowdScore >= 18 ? 'Alto' : crowdScore >= 12 ? 'Medio' : 'Bajo',
-    crimeRiskLabel: crimeDeduction <= 5 ? 'Muy bajo' : crimeDeduction <= 10 ? 'Bajo' : crimeDeduction <= 15 ? 'Medio' : 'Elevado',
+    crimeRiskLabel: crimeDeduction <= 6 ? 'Muy bajo' : crimeDeduction <= 12 ? 'Bajo' : crimeDeduction <= 18 ? 'Medio' : 'Elevado',
     c5Cameras: Math.round(avgCameras),
     policeStations: Math.round(avgPolice),
     open24hSpots: Math.round(avgOpen24h),

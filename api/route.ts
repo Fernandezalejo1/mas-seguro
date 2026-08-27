@@ -82,8 +82,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const dLng = (destLng - originLng) * 111320 * Math.cos((originLat * Math.PI) / 180);
     const straightLineMeters = Math.sqrt(dLat * dLat + dLng * dLng);
 
-    const smallOffset = Math.min(800, Math.max(100, straightLineMeters * 0.35));
-    const largeOffset = Math.min(1500, Math.max(200, straightLineMeters * 0.65));
+    const smallOffset = Math.min(1200, Math.max(200, straightLineMeters * 0.45));
+    const largeOffset = Math.min(2500, Math.max(400, straightLineMeters * 0.80));
 
     const [direct, viaSmall, viaLarge] = await Promise.all([
       fetchOsrmRoute([origin, destination]),
