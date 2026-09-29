@@ -1,5 +1,7 @@
 # Más Seguro — Montevideo
 
+[![CI](https://github.com/Fernandezalejo1/mas-seguro/actions/workflows/ci.yml/badge.svg)](https://github.com/Fernandezalejo1/mas-seguro/actions/workflows/ci.yml)
+
 Navegación peatonal segura para Montevideo: Safety Score, comparación de rutas, IA predictiva y reportes ciudadanos.
 
 ## Vercel
