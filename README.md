@@ -1,14 +1,19 @@
 # Más Seguro — Montevideo
 
 [![CI](https://github.com/Fernandezalejo1/mas-seguro/actions/workflows/ci.yml/badge.svg)](https://github.com/Fernandezalejo1/mas-seguro/actions/workflows/ci.yml)
+[![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-2ea44f)](LICENSE)
 
 Navegación peatonal segura para Montevideo: Safety Score, comparación de rutas, IA predictiva y reportes ciudadanos.
 
-## Vercel
+**[Probar la demo en vivo](https://mas-seguro.vercel.app/)**
 
-[https://mas-seguro.vercel.app/](https://mas-seguro.vercel.app/)
+## 📸 Capturas
 
-### Variables de entorno (configurar en Vercel Dashboard > Settings > Environment Variables)
+![Dashboard de Más Seguro](assets/Dashboard.png)
+
+## Variables de entorno
+
+Se configuran en *Vercel Dashboard → Settings → Environment Variables*, o en `.env.local` al correr en local (ver `.env.example`).
 
 | Variable | Requerida | Descripción |
 |---|---|---|
@@ -16,21 +21,18 @@ Navegación peatonal segura para Montevideo: Safety Score, comparación de rutas
 | `SUPABASE_ANON_KEY` | Sí | Anon key de Supabase |
 | `GEMINI_API_KEY` | No | API key de Google Gemini (gratis en [AI Studio](https://aistudio.google.com/apikey)) |
 
-## Run Locally
+## Correr localmente
 
-**Prerequisites:** Node.js 18+
+**Requisitos:** Node.js 18+
 
-1. Install dependencies:
-   `npm install`
-2. Configurar variables de entorno:
-   Copiar `.env.example` a `.env.local` y completar los valores de Supabase.
-3. Run the app:
-   `npm run dev`
+1. Instalá las dependencias: `npm install`
+2. Copiá `.env.example` a `.env.local` y completá los valores de Supabase.
+3. Arrancá la app: `npm run dev`
 4. Abrí http://localhost:5173
 
-## Base de Datos (Supabase)
+## Base de datos (Supabase)
 
-Ejecutar el script SQL en `supabase/migrations/001_create_reports.sql` desde el SQL Editor de Supabase para crear la tabla `community_reports` con los datos iniciales.
+Ejecutá el script SQL en `supabase/migrations/001_create_reports.sql` desde el SQL Editor de Supabase para crear la tabla `community_reports` con los datos iniciales.
 
 ## Arquitectura
 
@@ -53,5 +55,4 @@ Ejecutar el script SQL en `supabase/migrations/001_create_reports.sql` desde el 
 
 ## Licencia
 
-Apache-2.0
-
+MIT — ver [LICENSE](LICENSE).
